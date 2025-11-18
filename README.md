@@ -54,7 +54,7 @@ Physics Book là một ứng dụng web tương tác được xây dựng bằng
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/your-username/physics-book-nextjs.git
+git clone https://github.com/yourusername/physics-book-nextjs.git
 cd physics-book-nextjs
 ```
 
@@ -68,15 +68,20 @@ Tạo file `.env.local` trong thư mục root:
 
 ```env
 # MongoDB Atlas connection string  
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/physics_book?retryWrites=true&w=majority
+MONGODB_URI=your_mongodb_connection_string
 
-# JWT Secret for authentication
-JWT_SECRET=your_jwt_secret_key_here
+# JWT Secret for authentication (use a strong random string)
+JWT_SECRET=your_secure_jwt_secret_key
 
 # NextAuth Configuration
-NEXTAUTH_SECRET=your_nextauth_secret_here
+NEXTAUTH_SECRET=your_nextauth_secret_key
 NEXTAUTH_URL=http://localhost:3000
 ```
+
+> **Lưu ý bảo mật:** 
+> - Không bao giờ commit file `.env.local` lên Git
+> - Sử dụng mật khẩu mạnh cho MongoDB
+> - JWT_SECRET và NEXTAUTH_SECRET nên là chuỗi ngẫu nhiên dài ít nhất 32 ký tự
 
 ### 4. Chạy development server
 ```bash
@@ -209,9 +214,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 👨‍💻 Author
 
-**Hung Ho**
-- GitHub: [@Hungho](https://github.com/Azura-Deeper)
-- Email: hunghs25202@gmail.com
+**Your Name**
+- GitHub: [@YourUsername](https://github.com/yourusername)
+- Email: your.email@example.com
 
 ---
 
