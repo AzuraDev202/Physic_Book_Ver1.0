@@ -37,6 +37,9 @@ export async function GET(request: NextRequest) {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        role: user.role,
+        isActive: user.isActive,
+        username: user.username,
         createdAt: user.createdAt,
       },
     });

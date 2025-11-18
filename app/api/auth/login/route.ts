@@ -53,6 +53,7 @@ export async function POST(request: NextRequest) {
       name: user.name,
       email: user.email,
       avatar: user.avatar,
+      role: user.role || 'user',
       createdAt: user.createdAt,
     };
 

@@ -65,7 +65,24 @@ export default function UserMenu({ user }: UserMenuProps) {
               <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                 {user.email}
               </p>
+              {user.role === 'admin' && (
+                <span className="inline-block mt-1 px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded">
+                  Administrator
+                </span>
+              )}
             </div>
+            
+            {user.role === 'admin' && (
+              <a
+                href="/admin/dashboard"
+                className="w-full text-left px-4 py-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors flex items-center"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Dashboard
+              </a>
+            )}
             
             <button
               onClick={handleLogout}

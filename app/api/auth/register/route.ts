@@ -43,6 +43,8 @@ export async function POST(request: NextRequest) {
       name: name.trim(),
       email: email.toLowerCase().trim(),
       password: hashedPassword,
+      role: 'user',
+      isActive: true
     });
 
     await newUser.save();
@@ -64,6 +66,7 @@ export async function POST(request: NextRequest) {
       name: newUser.name,
       email: newUser.email,
       avatar: newUser.avatar,
+      role: newUser.role || 'user',
       createdAt: newUser.createdAt,
     };
 

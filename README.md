@@ -66,22 +66,25 @@ npm install
 ### 3. Cấu hình environment variables
 Tạo file `.env.local` trong thư mục root:
 
+
 ```env
-# MongoDB Atlas connection string  
+# MongoDB Atlas connection string (KHÔNG commit giá trị thật lên Git)
 MONGODB_URI=your_mongodb_connection_string
 
-# JWT Secret for authentication (use a strong random string)
+# JWT Secret for authentication (KHÔNG commit giá trị thật lên Git)
 JWT_SECRET=your_secure_jwt_secret_key
 
-# NextAuth Configuration
+# NextAuth Configuration (KHÔNG commit giá trị thật lên Git)
 NEXTAUTH_SECRET=your_nextauth_secret_key
 NEXTAUTH_URL=http://localhost:3000
 ```
 
-> **Lưu ý bảo mật:** 
-> - Không bao giờ commit file `.env.local` lên Git
-> - Sử dụng mật khẩu mạnh cho MongoDB
-> - JWT_SECRET và NEXTAUTH_SECRET nên là chuỗi ngẫu nhiên dài ít nhất 32 ký tự
+
+> **Lưu ý bảo mật:**
+> - KHÔNG commit file `.env.local` hoặc bất kỳ file chứa secret/database credentials lên Git hoặc public repo.
+> - KHÔNG để lộ connection string, JWT_SECRET, NEXTAUTH_SECRET thật trong README, code, issue, commit.
+> - Luôn dùng mật khẩu mạnh và secret dài, ngẫu nhiên cho các biến môi trường.
+> - Nếu lỡ để lộ, hãy đổi ngay secret và connection string trên MongoDB/Vercel.
 
 ### 4. Chạy development server
 ```bash
@@ -214,9 +217,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 👨‍💻 Author
 
-**Your Name**
-- GitHub: [@YourUsername](https://github.com/yourusername)
-- Email: your.email@example.com
+**Project Maintainer**
+- GitHub: [@yourusername](https://github.com/yourusername)
 
 ---
 

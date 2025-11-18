@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const login = async (email: string, password: string): Promise<{ success: boolean; message: string }> => {
+  const login = async (email: string, password: string): Promise<{ success: boolean; message: string; redirectTo?: string }> => {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -76,7 +76,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response.ok) {
         localStorage.setItem('auth_token', data.token);
         setUser(data.user);
-        return { success: true, message: 'Đăng nhập thành công!' };
+        return { 
+          success: true, 
+          message: 'Đăng nhập thành công!',
+          redirectTo: data.redirectTo 
+        };
       } else {
         return { success: false, message: data.message || 'Đăng nhập thất bại!' };
       }

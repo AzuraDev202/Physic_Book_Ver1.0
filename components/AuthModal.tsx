@@ -71,7 +71,7 @@ export default function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps
     setError('');
 
     try {
-      let result;
+      let result: { success: boolean; message: string };
       if (isLoginMode) {
         result = await login(formData.email, formData.password);
       } else {
