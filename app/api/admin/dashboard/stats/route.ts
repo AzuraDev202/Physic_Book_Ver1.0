@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
     const allChapters = await Chapter.find();
     let totalLessons = 0;
     allChapters.forEach(chap => {
-      if (Array.isArray(chap.sections)) totalLessons += chap.sections.length;
+      if (Array.isArray(chap.lessons)) totalLessons += chap.lessons.length;
     });
 
     // Get progress statistics

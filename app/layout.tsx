@@ -25,25 +25,15 @@ export default function RootLayout({
           src="https://polyfill.io/v3/polyfill.min.js?features=es6"
           async
         />
-        <script 
-          id="MathJax-script" 
-          async 
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
-        />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              window.MathJax = {
-                tex: {
-                  inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
-                  displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]
-                },
-                svg: {
-                  fontCache: 'global'
-                }
-              };
-            `
+            __html: `window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\\\(', '\\\\)']], displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']] }, svg: { fontCache: 'global' } };`
           }}
+        />
+        <script
+          id="MathJax-script"
+          async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
         />
       </head>
       <body className={inter.className}>

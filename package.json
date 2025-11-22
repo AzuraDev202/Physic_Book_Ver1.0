@@ -5,7 +5,15 @@
   "description": "Interactive Physics Book - Chương 1: Dao động (Vật lí 11 Chân trời sáng tạo)",
   "author": "Hung Ho",
   "license": "MIT",
-  "keywords": ["physics", "education", "nextjs", "react", "vietnamese", "dao-dong", "vat-ly"],
+  "keywords": [
+    "physics",
+    "education",
+    "nextjs",
+    "react",
+    "vietnamese",
+    "dao-dong",
+    "vat-ly"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Azura-Deeper/Physic_Book_Ver1.0.git"
@@ -25,6 +33,7 @@
     "npm": ">=8.0.0"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.2",
     "better-react-mathjax": "^2.3.0",
     "dotenv": "^16.6.1",

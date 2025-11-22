@@ -9,7 +9,7 @@ interface Slide {
   id: number
   title: string
   content: string
-  type: 'intro' | 'concept' | 'formula' | 'example' | 'summary'
+  type: 'intro' | 'defination' | 'example' | 'summary'
   formulas?: string[]
   images?: string[]
   notes?: string
@@ -40,7 +40,61 @@ const SlidePresentation = forwardRef<SlidePresentationRef, SlidePresentationProp
   const [isScrollable, setIsScrollable] = useState(false)
   const [startTime, setStartTime] = useState<Date>(new Date())
   const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
   const { updateProgress } = useProgress()
+  // Helper: wait for MathJax to be ready then typeset a selector (with retries)
+  const ensureMathJaxTypeset = (selector = '.slide-content', attempt = 0): Promise<void> => {
+    const MAX_ATTEMPTS = 20
+    const RETRY_MS = 300
+    return new Promise((resolve) => {
+      if (typeof window === 'undefined') return resolve()
+      const mj = (window as any).MathJax
+      if (mj && mj.typesetPromise) {
+        try {
+          const el = document.querySelector(selector)
+          // typesetPromise accepts an array of nodes or undefined for whole document
+          mj.typesetPromise(el ? [el] : undefined)
+            .then(() => resolve())
+            .catch((err: any) => {
+              console.error('MathJax typeset error:', err)
+              resolve()
+            })
+        } catch (err) {
+          console.error('MathJax typeset error:', err)
+          resolve()
+        }
+      } else if (attempt < MAX_ATTEMPTS) {
+        setTimeout(() => {
+          ensureMathJaxTypeset(selector, attempt + 1).then(() => resolve())
+        }, RETRY_MS)
+      } else {
+        // As a last resort, try typesetting the whole document if MathJax exists
+        if (mj && mj.typesetPromise) {
+          mj.typesetPromise()
+            .then(() => resolve())
+            .catch((err: any) => {
+              console.error('MathJax fallback typeset error:', err)
+              resolve()
+            })
+        } else {
+          resolve()
+        }
+      }
+    })
+  }
+
+  // Ensure MathJax typeset on initial mount (reload)
+  useEffect(() => {
+    ensureMathJaxTypeset('.slide-content')
+
+    // Also try once on window load to catch when external scripts finish late
+    const onLoad = () => ensureMathJaxTypeset('.slide-content')
+    if (typeof window !== 'undefined') {
+      if (document.readyState === 'complete') onLoad()
+      else window.addEventListener('load', onLoad)
+    }
+    return () => { if (typeof window !== 'undefined') window.removeEventListener('load', onLoad) }
+  }, [])
 
   const nextSlide = async () => {
     if (currentSlide < slides.length - 1) {
@@ -109,19 +163,17 @@ const SlidePresentation = forwardRef<SlidePresentationRef, SlidePresentationProp
     return () => window.removeEventListener('resize', checkScrollable)
   }, [currentSlide])
 
-  // Trigger MathJax to typeset the content after slide changes
+  // When slide changes: set innerHTML once, then typeset and render simulations
   useEffect(() => {
-    // Only typeset the slide content area, not the formulas section
-    if (typeof window !== 'undefined' && (window as any).MathJax) {
-      try {
-        const slideContent = document.querySelector('.slide-content')
-        if (slideContent) {
-          (window as any).MathJax.typesetPromise?.([slideContent])
-        }
-      } catch (err) {
-        console.error('MathJax typeset error:', err)
-      }
+    // set content HTML directly to avoid React re-applying raw HTML later
+    if (contentRef.current) {
+      contentRef.current.innerHTML = slide.content
     }
+
+    // Ensure DOM update is flushed, then typeset (with retries)
+    requestAnimationFrame(() => {
+      ensureMathJaxTypeset('.slide-content')
+    })
 
     // Render simulations after content is loaded
     setTimeout(() => {
@@ -154,8 +206,7 @@ const SlidePresentation = forwardRef<SlidePresentationRef, SlidePresentationProp
   const getSlideTypeColor = (type: string) => {
     switch (type) {
       case 'intro': return 'from-blue-500 to-blue-600'
-      case 'concept': return 'from-green-500 to-green-600'
-      case 'formula': return 'from-purple-500 to-purple-600'
+      case 'defination': return 'from-green-500 to-green-600'
       case 'example': return 'from-yellow-500 to-orange-500'
       case 'summary': return 'from-indigo-500 to-indigo-600'
       default: return 'from-gray-500 to-gray-600'
@@ -165,8 +216,7 @@ const SlidePresentation = forwardRef<SlidePresentationRef, SlidePresentationProp
   const getSlideTypeIcon = (type: string) => {
     switch (type) {
       case 'intro': return '📚'
-      case 'concept': return '💡'
-      case 'formula': return '📐'
+      case 'defination': return '💡'
       case 'example': return '🔍'
       case 'summary': return '📋'
       default: return '📄'
@@ -236,9 +286,9 @@ const SlidePresentation = forwardRef<SlidePresentationRef, SlidePresentationProp
           <div className="bg-white dark:bg-gray-800 rounded-b-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8 transition-all duration-200 group-hover:shadow-2xl group-hover:scale-[1.02] min-h-[500px] max-h-none">
             {/* Main Content */}
             <div 
+              ref={contentRef}
               className="prose prose-lg dark:prose-invert max-w-none mb-6 slide-content text-gray-900 dark:text-gray-100"
               style={{ color: 'inherit' }}
-              dangerouslySetInnerHTML={{ __html: slide.content }}
             />
 
             {/* Formulas Section */}

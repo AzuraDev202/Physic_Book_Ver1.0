@@ -12,6 +12,10 @@ const ChapterSchema = new mongoose.Schema({
   },
   subtitle: String,
   icon: String,
+    theory: {
+      type: String,
+      required: false,
+    },
   content: {
     type: String,
     required: true,
@@ -53,6 +57,13 @@ const ChapterSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  lessons: [
+    {
+      id: String,
+      title: String,
+      slides: [mongoose.Schema.Types.Mixed]
+    }
+  ],
 });
 
 export default mongoose.models.Chapter || mongoose.model('Chapter', ChapterSchema);
