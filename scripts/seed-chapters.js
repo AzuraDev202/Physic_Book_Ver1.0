@@ -20,7 +20,7 @@ const chapter = {
           type: 'intro',
           content: `
             <h2>Dao động là gì?</h2>
-            <p">Là Dao động cơ học, là sự chuyển động có giới hạn trong không gian của một vật quanh một vị trí xác định. Vị trí đó gọi là vị trí cân bằng.</p> <br/>
+            <p>Là Dao động cơ học, là sự chuyển động có giới hạn trong không gian của một vật quanh một vị trí xác định. Vị trí đó gọi là vị trí cân bằng.</p> <br/>
             <div class="bg-gradient-to-r from-blue-500 to-gray-800 dark:from-blue-700 dark:to-gray-900 p-6 rounded-xl mb-6 text-white">
               <h3 class="font-bold mb-3 text-lg">I. Định nghĩa dao động tuần hoàn</h3>
               <p class="text-base leading-relaxed">Dao động mà trạng thái chuyển động của vật (vị trí và vận tốc) được lặp lại như cũ sau những khoảng thời gian bằng nhau được gọi là dao động tuần hoàn.</p>
@@ -491,7 +491,7 @@ const chapter = {
             <h2>Công thức cơ năng:</h2>
             <div class="formula-box text-center">
               <p>$W = W_{đ} + W_{t}$</p>
-              <p>$\\frac{1}{2}m \\omega^2 A^2 \\sin^2(\\omega t + \\phi) + \\frac{1}{2}m \\omega^2 A^2 \\cos^2(\\omega t + \\phi) = \\frac{1}{2}m \\omega^2 A^2$</p>
+              <p>$= \\frac{1}{2}m \\omega^2 A^2 \\sin^2(\\omega t + \\phi) + \\frac{1}{2}m \\omega^2 A^2 \\cos^2(\\omega t + \\phi) = \\frac{1}{2}m \\omega^2 A^2$</p>
             </div>
             <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mt-6">
               <h3 class="font-bold text-blue-800 dark:text-blue-200 mb-2">Ý nghĩa</h3>
@@ -625,16 +625,61 @@ const chapter = {
           content: `
             <h2>Ứng dụng thực tế của dao động tắt dần:</h2>
             <div class="mt-6 bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border-l-4 border-yellow-400 text-gray-900 dark:text-yellow-100">
-              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ví dụ 1: Hệ thống giảm xóc ô tô</h4>
+              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ứng dụng 1: Hệ thống giảm xóc ô tô</h4>
               <p class="text-sm">Hệ thống giảm xóc sử dụng dao động tắt dần để hấp thụ năng lượng từ các va chạm và rung động khi xe di chuyển trên địa hình không bằng phẳng, giúp cải thiện sự thoải mái và an toàn cho hành khách.</p>
+              <div class="mt-4 p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-l-4 border-gray-300">
+                <h5 class="font-semibold mb-1">Nguyên nhân gây tắt dần trong giảm xóc</h5>
+                <p class="text-sm mb-2">Trong giảm xóc, năng lượng bị tiêu tán chủ yếu do:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li><strong>Lực cản nhớt:</strong> dầu thủy lực trong giảm xóc tạo lực cản tỉ lệ với vận tốc, chuyển động cơ thành nhiệt.</li>
+                  <li><strong>Ma sát cơ khí:</strong> gioăng, vòng bi và con dấu tạo ma sát làm mất năng lượng.</li>
+                </ul>
+                <h5 class="font-semibold mt-2 mb-1">Mục đích áp dụng</h5>
+                <p class="text-sm">Giảm xóc được thiết kế để:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li>Hấp thụ va chạm và giảm biên độ dao động để tăng sự êm ái.</li>
+                  <li>Giữ bánh xe tiếp xúc tốt với mặt đường, nâng cao an toàn và kiểm soát lái.</li>
+                </ul>
+              </div>
             </div>
+
             <div class="mt-6 bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border-l-4 border-yellow-400 text-gray-900 dark:text-yellow-100">
-              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ví dụ 2: Đồng hồ quả lắc</h4>
-              <p class="text-sm">Đồng hồ quả lắc sử dụng dao động tắt dần để duy trì chuyển động đều đặn của quả lắc, giúp đồng hồ hoạt động chính xác và ổn định theo thời gian.</p>
+              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ứng dụng 2: Đồng hồ quả lắc</h4>
+              <p class="text-sm">Đồng hồ quả lắc sử dụng dao động tắt dần nhẹ (kèm với bộ thoát/escapement) để duy trì chuyển động đều đặn của quả lắc, giúp đồng hồ hoạt động chính xác và ổn định theo thời gian.</p>
+              <div class="mt-4 p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-l-4 border-gray-300">
+                <h5 class="font-semibold mb-1">Nguyên nhân gây tắt dần trong đồng hồ</h5>
+                <p class="text-sm mb-2">Trong đồng hồ quả lắc, damping phát sinh do:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li><strong>Ma sát ổ trục và tiếp xúc cơ học:</strong> làm mất một phần năng lượng cơ học.</li>
+                  <li><strong>Cản không khí:</strong> lực cản nhỏ từ không khí quanh quả lắc.</li>
+                </ul>
+                <h5 class="font-semibold mt-2 mb-1">Mục đích áp dụng</h5>
+                <p class="text-sm">Ở đồng hồ, tắt dần nhẹ giúp:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li>Ổn định biên độ dao động để tránh dao động quá lớn hoặc không ổn định.</li>
+                  <li>Cho phép bộ thoát cung cấp năng lượng khắc phục phần năng lượng mất đi, giữ pha và tần số ổn định cho việc đo thời gian chính xác.</li>
+                </ul>
+              </div>
             </div>
+
             <div class="mt-6 bg-yellow-100 dark:bg-yellow-900 p-4 rounded-lg border-l-4 border-yellow-400 text-gray-900 dark:text-yellow-100">
-              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ví dụ 3: Hệ thống treo cầu</h4>
-              <p class="text-sm">Hệ thống treo cầu sử dụng dao động tắt dần để giảm thiểu tác động của gió và các lực bên ngoài khác, giúp cầu duy trì sự ổn định và an toàn trong quá trình sử dụng.</p>
+              <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">💡Ứng dụng 3: Hệ thống treo cầu</h4>
+              <p class="text-sm">Hệ thống treo cầu sử dụng các biện pháp giảm chấn để hạn chế dao động do gió, giao thông hoặc các kích thích khác, bảo vệ cấu trúc và tăng tuổi thọ công trình.</p>
+              <div class="mt-4 p-3 rounded-md bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border-l-4 border-gray-300">
+                <h5 class="font-semibold mb-1">Nguyên nhân gây tắt dần trong cầu</h5>
+                <p class="text-sm mb-2">Các nguồn tắt dần trong kết cấu cầu bao gồm:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li><strong>Mất năng lượng nội tại:</strong> nội ma sát trong vật liệu kết cấu (thép, bê tông).</li>
+                  <li><strong>Tương tác không khí (aero-damping):</strong> các dòng không khí tạo lực cản và mất năng lượng.</li>
+                  <li><strong>Thiết bị giảm chấn:</strong> bộ giảm chấn điều chỉnh như tuned mass dampers hay viscous dampers nhằm chủ động tiêu tán năng lượng.</li>
+                </ul>
+                <h5 class="font-semibold mt-2 mb-1">Mục đích áp dụng</h5>
+                <p class="text-sm">Trong cầu, mục tiêu chính là:</p>
+                <ul class="list-disc list-inside text-sm space-y-1">
+                  <li>Ngăn hiện tượng cộng hưởng do gió hoặc tải trọng thay đổi, tránh dao động lớn gây hư hỏng.</li>
+                  <li>Giảm biến dạng và mệt mỏi vật liệu, kéo dài tuổi thọ kết cấu và đảm bảo an toàn cho người sử dụng.</li>
+                </ul>
+              </div>
             </div>
           `,
           notes: 'Dao động tắt dần. có ứng dụng rộng rãi trong mọi lĩnh vực của đời sống.'

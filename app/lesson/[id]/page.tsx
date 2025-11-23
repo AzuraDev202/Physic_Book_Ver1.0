@@ -39,6 +39,18 @@ export default function LessonPage() {
   const params = useParams()
   const lessonId = params?.id as string
   const { updateProgress } = useProgress()
+  const [isUpdating, setIsUpdating] = useState(false)
+
+  const toNumberSafe = (val: any) => {
+    try {
+      if (val == null) return NaN
+      // Prefer calling .toString() on the value if available (works for String objects and primitives)
+      const s = typeof (val as any)?.toString === 'function' ? (val as any).toString() : String(val)
+      return Number(s)
+    } catch (e) {
+      return NaN
+    }
+  }
 
   useEffect(() => {
     setMounted(true)
@@ -96,18 +108,34 @@ export default function LessonPage() {
     router.push('/lessons')
   }
 
-  const handleNextLesson = () => {
-    const currentId = parseInt(lessonId)
-    if (currentId < 4) {
-      router.push(`/lesson/${currentId + 1}`)
-    } else {
-      router.push('/practice')
+  const handleNextLesson = async () => {
+    const currentId = toNumberSafe(lessonId)
+    if (Number.isNaN(currentId)) {
+      // fallback: navigate without marking progress
+      console.warn('Invalid lessonId, navigating without updating progress:', lessonId)
+      if (typeof lessonId === 'string' && +lessonId >= 4) router.push('/practice')
+      else router.push(`/lesson/${(Number(lessonId) || 0) + 1}`)
+      return
+    }
+
+    setIsUpdating(true)
+    try {
+      await updateProgress?.(currentId, true)
+    } catch (err) {
+      console.error('Failed to update progress for lesson', currentId, err)
+    } finally {
+      setIsUpdating(false)
+      if (currentId < 4) {
+        router.push(`/lesson/${currentId + 1}`)
+      } else {
+        router.push('/practice')
+      }
     }
   }
 
   const handlePrevLesson = () => {
-    const currentId = parseInt(lessonId)
-    if (currentId > 1) {
+    const currentId = toNumberSafe(lessonId)
+    if (!Number.isNaN(currentId) && currentId > 1) {
       router.push(`/lesson/${currentId - 1}`)
     }
   }
@@ -289,7 +317,7 @@ export default function LessonPage() {
               ref={slideRef}
               slides={lessonContent.slides} 
               lessonTitle={`Bài ${lessonContent.id}: ${lessonContent.title}`}
-              lessonId={parseInt(lessonId)}
+              lessonId={toNumberSafe(lessonId)}
               onSlideChange={handleSlideChange}
               onLessonComplete={handleLessonComplete}
             />
@@ -299,9 +327,9 @@ export default function LessonPage() {
           <div id="navigation-buttons" className="flex items-center justify-between pt-8 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={handlePrevLesson}
-              disabled={parseInt(lessonId) <= 1}
+              disabled={toNumberSafe(lessonId) <= 1}
               className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${
-                parseInt(lessonId) <= 1
+                toNumberSafe(lessonId) <= 1
                   ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
                   : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'
               }`}
@@ -321,9 +349,10 @@ export default function LessonPage() {
 
             <button
               onClick={handleNextLesson}
-              className="flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+              disabled={isUpdating}
+              className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${isUpdating ? 'bg-blue-400 cursor-wait' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
             >
-              {parseInt(lessonId) >= 4 ? '🎯 Luyện tập' : 'Bài tiếp theo'}
+              {toNumberSafe(lessonId) >= 4 ? '🎯 Luyện tập' : 'Bài tiếp theo'}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
