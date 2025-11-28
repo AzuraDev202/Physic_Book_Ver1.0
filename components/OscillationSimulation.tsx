@@ -8,10 +8,10 @@ interface OscillationSimulationProps {
   height?: number
 }
 
-export default function OscillationSimulation({ 
-  type, 
-  width = 600, 
-  height = 300 
+export default function OscillationSimulation({
+  type,
+  width = 600,
+  height = 300
 }: OscillationSimulationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isPlaying, setIsPlaying] = useState(true)
@@ -25,11 +25,11 @@ export default function OscillationSimulation({
       setIsDark(document.documentElement.classList.contains('dark'))
     }
     checkDarkMode()
-    
+
     // Watch for dark mode changes
     const observer = new MutationObserver(checkDarkMode)
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
-    
+
     return () => observer.disconnect()
   }, [])
 
@@ -180,7 +180,7 @@ export default function OscillationSimulation({
     const massX = centerX + x
     ctx.fillStyle = '#ef4444'
     ctx.fillRect(massX - 20, centerY - 25, 40, 50)
-    
+
     // Draw mass label
     ctx.fillStyle = '#fff'
     ctx.font = 'bold 14px sans-serif'
@@ -303,7 +303,7 @@ export default function OscillationSimulation({
     ctx.strokeStyle = '#3b82f6'
     ctx.lineWidth = 3
     ctx.beginPath()
-    
+
     for (let x = 0; x < w; x++) {
       const y = centerY + amplitude * Math.sin(
         (2 * Math.PI * x) / wavelength - 2 * Math.PI * frequency * t
