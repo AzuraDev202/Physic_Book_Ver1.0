@@ -7,16 +7,18 @@ import SlidePresentation, { SlidePresentationRef } from '@/components/SlidePrese
 import { useProgress } from '@/hooks/useProgress'
 import Toast from '@/components/Toast'
 import OscillationSimulation from '@/components/OscillationSimulation'
+import SimulationModal from '@/components/SimulationModal'
 import axios from 'axios'
 
 interface Slide {
   id: number
   title: string
   content: string
-  type: 'intro' | 'defination' | 'example' | 'summary'
+  type: 'intro' | 'defination' | 'example' | 'summary' | 'simulation'
   formulas?: string[]
   images?: string[]
   notes?: string
+  simulationType?: string
 }
 
 interface LessonContent {
@@ -158,6 +160,7 @@ export default function LessonPage() {
       case 'defination': return '💡'
       case 'example': return '🔍'
       case 'summary': return '📋'
+      case 'simulation': return '🎮'
       default: return '📄'
     }
   }
@@ -203,7 +206,7 @@ export default function LessonPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              
+
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-sm">P</span>
@@ -216,7 +219,7 @@ export default function LessonPage() {
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={toggleTheme}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -233,11 +236,10 @@ export default function LessonPage() {
         {showSidebar && !sidebarOpen && (
           <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-20 bg-blue-500/50 rounded-r-full transition-all duration-200"></div>
         )}
-        
+
         {/* Actual sidebar */}
-        <div className={`h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-all duration-300 shadow-xl ${
-          sidebarOpen || showSidebar ? 'translate-x-0' : '-translate-x-72'
-        }`}>
+        <div className={`h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-all duration-300 shadow-xl ${sidebarOpen || showSidebar ? 'translate-x-0' : '-translate-x-72'
+          }`}>
           <div className="p-6">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
               Slides bài học
@@ -250,11 +252,10 @@ export default function LessonPage() {
                     slideRef.current?.goToSlide(index)
                     setCurrentSlide(index)
                   }}
-                  className={`w-full text-left p-3 rounded-lg transition-colors ${
-                    index === currentSlide
-                      ? 'bg-blue-500 text-white'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                  }`}
+                  className={`w-full text-left p-3 rounded-lg transition-colors ${index === currentSlide
+                    ? 'bg-blue-500 text-white'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                    }`}
                 >
                   <div className="flex items-center space-x-3">
                     <span className="text-sm">{getSlideTypeIcon(slide.type)}</span>
@@ -267,7 +268,7 @@ export default function LessonPage() {
                 </button>
               ))}
             </div>
-            
+
             {/* Quick navigation */}
             <div className="mt-8 space-y-2">
               <button
@@ -292,14 +293,14 @@ export default function LessonPage() {
         <div className="max-w-4xl mx-auto p-6">
           {/* Navigation breadcrumb */}
           <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-300 mb-6">
-            <button 
+            <button
               onClick={() => router.push('/')}
               className="hover:text-blue-600 dark:hover:text-blue-400"
             >
               Trang chủ
             </button>
             <span>›</span>
-            <button 
+            <button
               onClick={handleBackToLessons}
               className="hover:text-blue-600 dark:hover:text-blue-400"
             >
@@ -313,9 +314,9 @@ export default function LessonPage() {
 
           {/* Slide Presentation */}
           <div className="h-[calc(100vh-8rem)]">
-            <SlidePresentation 
+            <SlidePresentation
               ref={slideRef}
-              slides={lessonContent.slides} 
+              slides={lessonContent.slides}
               lessonTitle={`Bài ${lessonContent.id}: ${lessonContent.title}`}
               lessonId={toNumberSafe(lessonId)}
               onSlideChange={handleSlideChange}
@@ -328,11 +329,10 @@ export default function LessonPage() {
             <button
               onClick={handlePrevLesson}
               disabled={toNumberSafe(lessonId) <= 1}
-              className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${
-                toNumberSafe(lessonId) <= 1
-                  ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
-                  : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'
-              }`}
+              className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${toNumberSafe(lessonId) <= 1
+                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-not-allowed'
+                : 'bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300'
+                }`}
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -363,7 +363,7 @@ export default function LessonPage() {
 
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
