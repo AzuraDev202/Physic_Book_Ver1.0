@@ -317,8 +317,8 @@ export default function LessonsPage() {
               onClick={handlePractice}
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-2xl shadow-xl transform hover:scale-105 transition-all duration-200"
             >
-              <span className="mr-3">🎯</span>
-              Luyện tập tổng hợp
+              <span className="mr-3">📖</span>
+              Bài tập ôn luyện
             </button>
             
             <p className="text-sm text-gray-500 dark:text-gray-400">

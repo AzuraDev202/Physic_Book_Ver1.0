@@ -281,7 +281,7 @@ export default function LessonPage() {
                 onClick={() => router.push('/practice')}
                 className="w-full p-3 bg-purple-100 dark:bg-purple-900/30 hover:bg-purple-200 dark:hover:bg-purple-900/50 text-purple-700 dark:text-purple-300 rounded-lg font-medium transition-colors text-sm"
               >
-                🎯 Luyện tập
+                📖 Bài tập
               </button>
             </div>
           </div>
@@ -352,7 +352,7 @@ export default function LessonPage() {
               disabled={isUpdating}
               className={`flex items-center px-6 py-3 rounded-lg font-medium transition-colors ${isUpdating ? 'bg-blue-400 cursor-wait' : 'bg-blue-600 hover:bg-blue-700 text-white'}`}
             >
-              {toNumberSafe(lessonId) >= 4 ? '🎯 Luyện tập' : 'Bài tiếp theo'}
+              {toNumberSafe(lessonId) >= 4 ? '📖 Bài tập' : 'Bài tiếp theo'}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

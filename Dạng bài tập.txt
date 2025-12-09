@@ -1,0 +1,153 @@
+DẠNG BÀI TẬP CHƯƠNG 1
+Dạng 1: 1 dao động bình thường
+Dạng 1a) 
+- Cho 1 trong 4 dữ kiện (Nhóm A):
++ Tần số: f
++ Chu kỳ: T
++ Số chu kỳ dao động n thực hiện được trong khoảng thời gian t: (n, t)
++ Số chu kỳ dao động n thực hiện được từ thời điểm t0 đến thởi điểm t1: (n, t0, t1)
+- Cách cho dữ kiện:
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian
+- Câu hỏi:
++ Tìm tần số -> f = … (Hz)
++ Tìm chu kỳ -> T = … (s)
++ Tìm số chu kỳ thực hiện được trong t giây -> Số chu kỳ thực hiện được: … (chu kỳ)
++ Tìm số chu kỳ thực hiện được ở từ thời điểm t0 đến t1 -> Số chu kỳ thực hiện được: … (chu kỳ)
++ Tìm thời gian để thực hiện x chu kỳ -> Thời gian thực hiện: … (s)
++ Kể từ t0, tìm thởi điểm t1 hoàn thành x chu kỳ-> Mốc t1: …(s)
++ (Chỉ áp dụng khi cho dữ kiện bằng đồ thị ly độ thời gian): Tìm khoảng thời gian ngắn nhất để di chuyển từ ly độ x đến y -> Thời gian di chuyển: … (s)
++ (Chỉ áp dụng khi cho dữ kiện bằng đồ thị ly độ thời gian): Kể từ t0, tìm thời điểm lần đầu đến ly độ x-> Mốc t: … (s)
++ (Chỉ áp dụng khi cho dữ kiện bằng đồ thị ly độ thời gian): Tìm ly độ ở thời diểm t0 -> Ly độ: … (cm)
+
+Dạng 2: Nhiều dao động bình thường
+Dạng 2a)
+- Cho 1 trong 2 dữ kiện sau (Nhóm B) sao cho mỗi dao động xuất hiện ít nhất 1 lần:
++ Mối liên hệ giữa f (chênh lệch giá trị hoặc tỷ số): f1 – f2 hoặc f1/f2
++ Mối liên hệ giữa T (chênh lệch giá trị hoặc tỷ số): T1 – T2 hoặc T1/T2
+- Cách cho dữ kiện:
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian:
+    • Trục thời gian được chia thành các phần bằng nhau: Nếu mối liên hệ là tỷ số
+    • Trục thời gian được đánh số ở vị trí cùng pha của mỗi dao động nếu mối liên hệ là chênh lệch.
+- Câu hỏi:
++ So sánh tần số của các dao động -> f1 … f2 … f3
++ So sánh chu kỳ của các dao động -> T1 … T2 … T3
++ Khi dao động 1 có ly độ x thì dao động 2 có ly độ bao nhiêu? -> Ly độ dao động 2: … (cm)
++ Khi dao động 1 có ly độ x thì dao động 2 cần bao nhiêu thời gian để đến ly độ y -> Thời gian cần thiết: … (s)
++ Dao động nào đạt ly độ x trước? -> Dao động …
+Dạng 2b) Kết hợp giữa dạng 1a và 2a
+- Cho 2 dao động với các dữ kiện:
++ 1 dữ kiện thuộc nhóm A (Vd: Dao động 1 có tần số f …)
++ 1 dữ kiện thuộc nhóm B (Vd: Dao động 2 có chu kỳ gấp đôi dao động 1)
+-  Câu hỏi: Bao gồm câu hỏi dạng 1a và 2a
+
+Dạng 3: 1 dao động điều hoà
+Dạng 3a)
+- Cho 2 trên 3 dữ kiện sau:
++ Biên độ: A
++ Ly độ ở thời điểm bất kỳ: x
++ Pha dao động ở thời điểm bất kỳ
+- Cách cho dữ kiện:
++ Cho phương trình dao động điều hoà
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian
+- Câu hỏi:
++ Tìm ly độ ứng với pha dao động y => x = … (cm)
++ Tìm pha dao động y ứng với ly độ x => Pha dao động y: … (rad) (2 đáp án)
++ Tìm biên độ của dao động => A: … (cm)
+Dạng 3b)
+- Cho các dữ kiện thoả 2 trên 3 dấu cộng (+) đầu tiên (Nhóm D):
++ 1 trong 5 dữ kiện (Nhóm C):
+    • Chu kỳ: T
+    • Tần số: f
+    • Tần số góc: ω (còn gọi là vận tốc góc hoặc tốc độ góc)
+    • Số chu kỳ dao động n thực hiện được trong khoảng thời gian t: (n, t)
+    • Số chu kỳ dao động n thực hiện được từ mốc thời gian t0 đến mốc thời gian t1: (n, t0, t1)
++ Pha ban đầu: φ
++ Pha dao động y và thời điểm t tương ứng: (ωt + φ, t)
++ (Dữ kiện tuỳ chọn) Biên độ dao động A
+ 
+- Cách cho dữ kiện:
++ Cho phương trình dao động điều hoà
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian: Các pha đặc biệt 
+- Câu hỏi:
++ Tìm tần số -> f = … (Hz)
++ Tìm chu kỳ -> T = … (s)
++ Tìm tần số / vận tốc / tốc độ góc -> ω = … (rad/s)
++ Tìm pha ban dầu -> φ = … (rad)
++ Tìm số chu kỳ thực hiện được trong t giây -> Số chu kỳ thực hiện được: … (chu kỳ)
++ Tìm số chu kỳ thực hiện được từ thời điểm t0 đến t1 -> Số chu kỳ thực hiện được: … (chu kỳ)
++ Tìm t là khoảng thời gian để thực hiện x chu kỳ -> Thời gian thực hiện: t = … (s)
++ Kể từ t0, tìm thởi điểm t1 hoàn thành x chu kỳ-> Mốc t1: …(s)
++ Tìm số lần vật di chuyển đến vị trí có ly độ x = A/a (a là số bất kỳ) sau khoảng thời gian t kể từ thời điểm t0? -> Số lần: n = …
++ Tìm số lần vật di chuyển đến vị trí có ly độ x = A/a (a là số bất kỳ) từ thời điểm t0 đến t1? -> Số lần: n = …
++ Tìm pha dao động y ứng với thời điểm t -> Pha dao động: y = … (rad)
++ Tìm pha dao động y ở t(s) trước / sau -> Pha dao động: y = … (rad)
++ Tìm thời điểm t1 trước/ sau t0 ứng với pha dao động y gần nhất -> t1 = … (s)
++ Tìm t là khoảng thời gian giữa t1 đến pha dao động y gần nhất / kế tiếp -> t = … (s)
+- Câu hỏi cho thêm nếu ra dữ kiện tuỳ chọn:
++ Tìm ly độ ứng với pha dao động y => x = … (cm)
++ Tìm pha dao động y ứng với ly độ x => Pha dao động y: … (rad) (2 đáp án)
++ Tìm biên độ của dao động => A: … (cm)
++ Tìm thời điểm t1 gần nhất trước/ sau/ so với t0 sao cho vật đi qua ly độ x-> t1 = … (s)
++ Tìm t là khoảng thời gian ngắn nhất giữa t1 và thời điểm vật đi qua ly độ x -> t = … (s)
+Dạng 3c)
+- Cho các dữ kiện sau:
++ Pha dao động y1 = ωt1 + φ
++ Thời điểm t1
++ Pha dao động y2 = ωt2 + φ
++ Thời điểm t2
+- Cách cho số liệu:
++ Cho phương trình dao động điều hoà
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian
+- Câu hỏi: Bao gồm tất cả các câu hỏi ở dạng 3b (không bao gồm câu hỏi cho thêm tuỳ chọn).
+Dạng 3d) Là kết hợp của dạng 3a và 3c
+- Cho dữ kiện như sau:
++ Biên độ dao động A
++ Ly độ x1
++ Thời điểm t1
++ Ly độ x2
++ Thời điểm t2
+- Cách cho số liệu:
++ Cho phương trình dao động điều hoà
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian
+- Câu hỏi: Bao gồm tất cả các câu hỏi ở dạng 3b.
+
+Dạng 4: 2 dao động điều hoà
+Dạng 4a)
+- Cho dữ kiện thoả ít nhất 1 trong các dấu cộng (+) sau:
++ Ít nhất 1 trên 3 dữ kiện thuộc nhóm D của một dao động
++ 1 trong 2 dữ kiện sau (nếu không có mặc định là cùng tần số):
+   • Mối liên hệ giữa 2 tần số (chênh lệch giá trị hoặc tỷ số): f1 – f2 hoặc f1/ f2
+   • Mối liên hệ giữa 2 chu kỳ (chênh lệch giá trị hoặc tỷ số): T1 – T2 hoặc T1/T2
+   • Mối liên hệ giữa 2 tần số góc (chênh lệch giá trị hoặc tỷ số): ω1 – ω2 hoặc ω1/ ω2
++ 1 trong 3 dữ kiện sau (nếu không có mặc định là cùng pha):
+   • Độ lệch pha giữa 2 dao động tại cùng 1 thời điểm: Δφ
+   • Độ lệch thời gian giữa 2 dao động cùng pha: Δt
+   • Độ lệch pha tại 2 thời điểm khác nhau và độ lệch thời gian của 2 dao động: Δφ và Δt
+   (Ví dụ: Pha dao động 1 hiện tại lệch một góc pi/2 so với pha dao động trước đó 2 giây của dao động 2)
+- Cách cho số liệu:
++ Cho phương trình dao động điều hoà
++ Cho số liệu trực tiếp
++ Cho dữ kiện lời văn
++ Cho đồ thị li độ - thời gian
+- Câu hỏi: Để tổng hợp sau
+
+Thuật ngữ bài 1:
++ Vị trí biên => x = |A| 
++ Vị trí biên dương = Vị trí ly độ cực đại => x = A
++ Vị trí biên âm = Vị trí ly độ cực tiểu => x = -A
++ Vị tri cân bằng => x = 0
++ Vuông pha => Δφ = pi/ 2 hoặc 3pi/4
++ Cùng pha => Δφ = 0 hoặc 180
++ Ngược pha => Δφ = pi
