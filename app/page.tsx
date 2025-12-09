@@ -22,7 +22,7 @@ export default function Home() {
   }, [])
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'sepia' : 'light'
+    const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     document.documentElement.className = newTheme
     localStorage.setItem('physics-book-theme', newTheme)
@@ -70,7 +70,7 @@ export default function Home() {
                 onClick={toggleTheme}
                 className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
               >
-                {theme === 'light' ? '🌙' : theme === 'dark' ? '☀️' : '🌅'}
+                {theme === 'light' ? '🌙' : '☀️'}
               </button>
             </div>
           </div>
