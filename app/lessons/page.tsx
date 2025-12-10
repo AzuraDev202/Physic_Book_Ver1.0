@@ -66,7 +66,7 @@ export default function LessonsPage() {
   }, [])
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'sepia' : 'light'
+    const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     document.documentElement.className = newTheme
     localStorage.setItem('physics-book-theme', newTheme)
