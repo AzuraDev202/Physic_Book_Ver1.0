@@ -57,16 +57,16 @@ function generateExercisesForLesson(lessonId: string, lessonTitle: string): IExe
 
     // 10 câu thực tế
     const practicalQuestions = [
-      { q: 'Con lắc đồng hồ quả lắc dao động với chu kì 2s. Trong 1 phút, quả lắc thực hiện được bao nhiêu dao động?', ans: 30, exp: 'Số dao động = Thời gian / Chu kì = 60s / 2s = 30 dao động' },
-      { q: 'Một dây đàn guitar rung với tần số 440 Hz (nốt La). Chu kì dao động của dây đàn là bao nhiêu? (ms, làm tròn 2 chữ số thập phân)', ans: 2.27, exp: 'T = 1/f = 1/440 ≈ 0.00227s = 2.27ms' },
-      { q: 'Tim người đập 75 lần trong 1 phút. Tần số nhịp tim là bao nhiêu? (Hz, làm tròn 2 chữ số thập phân)', ans: 1.25, exp: 'f = 75/60 = 1.25 Hz' },
-      { q: 'Một con lắc lò xo dao động với tần số 2 Hz. Trong 5 giây, con lắc thực hiện được bao nhiêu dao động?', ans: 10, exp: 'Số dao động = f × t = 2 × 5 = 10 dao động' },
-      { q: 'Cánh của một con muỗi dao động với tần số 600 Hz. Thời gian để cánh muỗi thực hiện 1 dao động là bao nhiêu? (ms, làm tròn 2 chữ số thập phân)', ans: 1.67, exp: 'T = 1/f = 1/600 ≈ 0.00167s = 1.67ms' },
-      { q: 'Một chiếc xe ô tô chạy qua đường gồ ghề, khung xe dao động với chu kì 0.5s. Trong 10 giây, khung xe dao động bao nhiêu lần?', ans: 20, exp: 'Số dao động = t/T = 10/0.5 = 20 lần' },
-      { q: 'Sóng biển đánh vào bờ, khoảng cách giữa hai ngọn sóng liên tiếp là 5m và chu kì sóng là 2s. Trong 1 phút, có bao nhiêu ngọn sóng đánh vào bờ?', ans: 30, exp: 'Số ngọn sóng = Số dao động = 60s / 2s = 30 ngọn' },
-      { q: 'Một tòa nhà cao tầng dao động nhẹ do gió với tần số 0.2 Hz. Chu kì dao động của tòa nhà là bao nhiêu? (s)', ans: 5, exp: 'T = 1/f = 1/0.2 = 5s' },
-      { q: 'Piston của động cơ ô tô chuyển động lên xuống 3000 lần trong 1 phút. Tần số dao động của piston là bao nhiêu? (Hz)', ans: 50, exp: 'f = 3000/60 = 50 Hz' },
-      { q: 'Lá cây rung trong gió với chu kì 0.8s. Trong 2 phút, lá cây thực hiện được bao nhiêu dao động?', ans: 150, exp: 'Số dao động = t/T = 120s / 0.8s = 150 dao động' }
+      { q: 'Bạn quan sát đồng hồ quả lắc treo tường nhà, thấy quả lắc đi hết một lượt (từ trái sang phải rồi quay về trái) mất 2 giây. Hỏi trong 1 phút, quả lắc dao động được bao nhiêu lần?', ans: 30, exp: 'Chu kì T = 2s (thời gian để quả lắc đi hết một lượt). Số dao động = 60s / 2s = 30 dao động' },
+      { q: 'Khi gảy dây đàn guitar ở nốt La chuẩn, dây rung với tần số 440 Hz tạo ra âm thanh. Tính chu kì dao động của dây đàn này. (ms, làm tròn 2 chữ số thập phân)', ans: 2.27, exp: 'T = 1/f = 1/440 ≈ 0.00227s = 2.27ms. Đây là thời gian dây đàn hoàn thành 1 dao động' },
+      { q: 'Bạn đo nhịp tim của mình bằng đồng hồ trong 1 phút, đếm được 75 nhịp đập. Tính tần số nhịp tim (số lần tim đập mỗi giây). (Hz, làm tròn 2 chữ số thập phân)', ans: 1.25, exp: 'Tần số f = 75 nhịp / 60s = 1.25 Hz. Đây là số lần tim đập trong 1 giây' },
+      { q: 'Một con lắc lò xo treo đồ chơi dao động đều với tần số 2 Hz. Hỏi trong 5 giây, con lắc thực hiện được bao nhiêu dao động toàn phần?', ans: 10, exp: 'Số dao động = f × t = 2 Hz × 5s = 10 dao động' },
+      { q: 'Tiếng vo ve của con muỗi phát ra do cánh muỗi vỗ rất nhanh với tần số 600 Hz. Tính thời gian cánh muỗi thực hiện 1 cái vỗ (1 dao động). (ms, làm tròn 2 chữ số thập phân)', ans: 1.67, exp: 'T = 1/f = 1/600 ≈ 0.00167s = 1.67ms. Cánh muỗi vỗ rất nhanh nên chu kì rất nhỏ' },
+      { q: 'Xe ô tô chạy trên đường cao tốc có nhiều rãnh nối, cứ 0.5 giây thân xe rung lắc 1 lần. Nếu chạy trên đoạn đường này trong 10 giây, xe dao động bao nhiêu lần?', ans: 20, exp: 'Chu kì T = 0.5s. Số lần dao động = 10s / 0.5s = 20 lần' },
+      { q: 'Bạn đứng ở bờ biển quan sát sóng, thấy khoảng cách giữa hai ngọn sóng liên tiếp là 5m và cứ 2 giây có một ngọn sóng đánh vào bờ. Hỏi trong 1 phút có bao nhiêu ngọn sóng đánh vào bờ?', ans: 30, exp: 'Chu kì sóng T = 2s. Số ngọn sóng trong 60s = 60s / 2s = 30 ngọn' },
+      { q: 'Một tòa nhà chung cư cao tầng bị gió thổi làm rung nhẹ với tần số 0.2 Hz (người ở tầng cao cảm nhận được). Tính chu kì dao động của tòa nhà. (s)', ans: 5, exp: 'T = 1/f = 1/0.2 = 5s. Tòa nhà hoàn thành 1 dao động mất 5 giây' },
+      { q: 'Động cơ xe máy có piston chuyển động lên xuống 3000 lần trong 1 phút khi đang chạy. Tính tần số dao động của piston (số lần chuyển động lên xuống mỗi giây). (Hz)', ans: 50, exp: 'f = 3000 lần / 60s = 50 Hz. Piston dao động 50 lần mỗi giây' },
+      { q: 'Lá cây trước nhà bạn bị gió thổi lay động với chu kì 0.8 giây. Trong 2 phút gió thổi liên tục, lá cây dao động được bao nhiêu lần?', ans: 150, exp: 'Số dao động = 120s / 0.8s = 150 dao động. Lá cây lay động 150 lần trong 2 phút' }
     ]
     practicalQuestions.forEach(q => {
       exercises.push({ id: exerciseId++, lessonId, lessonTitle, type: 'calculation', question: q.q, correctAnswer: q.ans, explanation: q.exp, difficulty: 'intermediate', category: 'Bài tập thực tế' })
@@ -191,16 +191,16 @@ function generateExercisesForLesson(lessonId: string, lessonTitle: string): IExe
 
     // 10 câu thực tế
     const fixedPractical = [
-      { q: 'Một người đứng trên cầu treo quan sát thấy cầu dao động với biên độ 5cm và chu kì 4 giây. Tính tốc độ cực đại của dao động. (cm/s, làm tròn 1 chữ số thập phân)', ans: 7.9, exp: 'Tốc độ cực đại v_max = Aω = A(2π/T) = 5 × (2π/4) = 2.5π ≈ 7.9 cm/s' },
-      { q: 'Một con lắc dao động điều hòa với biên độ 8cm và tần số 2Hz. Tính vận tốc cực đại của con lắc. (cm/s, làm tròn 1 chữ số thập phân)', ans: 100.5, exp: 'Vận tốc cực đại v_max = 2πfA = 2π × 2 × 8 = 32π ≈ 100.5 cm/s' },
-      { q: 'Một vật dao động điều hòa, khi qua vị trí cân bằng có vận tốc v = 60cm/s và tần số góc ω = 10rad/s. Tính biên độ dao động của vật. (cm)', ans: 6, exp: 'Biên độ A = v_max/ω = 60/10 = 6 cm' },
-      { q: 'Vật có khối lượng m = 200g dao động điều hòa, khi qua vị trí cân bằng có vận tốc v = 1m/s với tần số góc ω = 20rad/s. Tính biên độ dao động. (cm)', ans: 5, exp: 'A = v_max/ω = 100cm/s / 20rad/s = 5 cm' },
-      { q: 'Một vật dao động điều hòa theo phương trình x = 10cos(4πt) cm. Tính li độ của vật tại thời điểm t = 1/8 giây. (cm)', ans: 0, exp: 'x = 10cos(4π × 1/8) = 10cos(π/2) = 0 cm' },
-      { q: 'Một vật dao động điều hòa, tại thời điểm t có li độ x = 3cm và vận tốc v = 40cm/s, biết tần số góc ω = 10rad/s. Tính biên độ dao động A. (cm)', ans: 5, exp: 'A = √(x² + v²/ω²) = √(3² + 40²/10²) = √(9 + 16) = 5 cm' },
-      { q: 'Một chiếc xe ô tô chạy qua đoạn đường gồ ghề, khung xe dao động với chu kì T = 1s và biên độ A = 3cm. Tính gia tốc cực đại của dao động. (cm/s², làm tròn 1 chữ số thập phân)', ans: 118.4, exp: 'Gia tốc cực đại a_max = Aω² = A(2π/T)² = 3 × (2π)² ≈ 118.4 cm/s²' },
-      { q: 'Một điện thoại di động rung với tần số f = 200Hz và biên độ A = 0.5mm. Tính vận tốc cực đại của dao động. (cm/s, làm tròn 1 chữ số thập phân)', ans: 62.8, exp: 'v_max = 2πfA = 2π × 200 × 0.05cm ≈ 62.8 cm/s' },
-      { q: 'Một máy massage dao động với tần số f = 50Hz, vận tốc cực đại đo được là v_max = 15.7cm/s. Tính biên độ dao động A. (mm)', ans: 1, exp: 'A = v_max/(2πf) = 15.7/(2π×50) = 0.05cm = 0.5mm ≈ 1mm' },
-      { q: 'Màng loa của một chiếc loa dao động với biên độ A = 0.2mm và tần số f = 1000Hz. Tính gia tốc cực đại của màng loa. (m/s², làm tròn 0 chữ số thập phân)', ans: 7896, exp: 'a_max = (2πf)²A = (2π×1000)² × 0.0002m ≈ 7896 m/s²' }
+      { q: 'Bạn đứng trên cầu treo đi bộ Cầu Vàng (Đà Nẵng) và cảm nhận thấy cầu rung nhẹ với biên độ khoảng 5cm, chu kì dao động là 4 giây. Tính vận tốc cực đại của dao động này. (cm/s, làm tròn 1 chữ số thập phân)', ans: 7.9, exp: 'Vận tốc cực đại v_max = Aω = A(2π/T) = 5cm × (2π/4s) = 2.5π ≈ 7.9 cm/s' },
+      { q: 'Khi đu đưa trên xích đu tại công viên, bạn dao động với biên độ 8cm (tính theo phương ngang) và tần số 2Hz. Tính vận tốc cực đại của bạn trong dao động này. (cm/s, làm tròn 1 chữ số thập phân)', ans: 100.5, exp: 'Vận tốc cực đại v_max = 2πfA = 2π × 2Hz × 8cm = 32π ≈ 100.5 cm/s' },
+      { q: 'Một quả bóng treo trên dây cao su dao động, khi qua vị trí thấp nhất có vận tốc 60cm/s. Biết tần số góc dao động là 10rad/s. Tính biên độ dao động của quả bóng. (cm)', ans: 6, exp: 'Tại vị trí cân bằng, vận tốc đạt cực đại. A = v_max/ω = 60cm/s / 10rad/s = 6 cm' },
+      { q: 'Một viên bi thép 200g gắn vào lò xo, kéo ra rồi thả cho dao động. Khi qua vị trí cân bằng bi có vận tốc 1m/s, tần số góc ω = 20rad/s. Tính biên độ dao động của bi thép. (cm)', ans: 5, exp: 'A = v_max/ω = 100cm/s / 20rad/s = 5 cm. Khối lượng không ảnh hưởng đến công thức này' },
+      { q: 'Một chiếc quạt trần khi tắt dao động nhẹ theo phương trình x = 10cos(4πt) cm. Hỏi sau khi tắt được 1/8 giây, quạt lệch khỏi vị trí ban đầu bao nhiêu? (cm)', ans: 0, exp: 'x = 10cos(4π × 1/8) = 10cos(π/2) = 0 cm. Quạt đang ở vị trí cân bằng' },
+      { q: 'Một cái bập bênh ở sân chơi, tại một thời điểm người ngồi cách mặt đất 3cm và đang chuyển động với vận tốc 40cm/s. Biết tần số góc dao động là 10rad/s. Tính biên độ dao động của bập bênh. (cm)', ans: 5, exp: 'A = √(x² + v²/ω²) = √(3² + 40²/10²) = √(9 + 16) = √25 = 5 cm' },
+      { q: 'Xe khách chạy trên quốc lộ 1A có nhiều ổ gà, thân xe dao động với chu kì 1 giây và biên độ 3cm. Tính gia tốc cực đại mà hành khách phải chịu. (cm/s², làm tròn 1 chữ số thập phân)', ans: 118.4, exp: 'Gia tốc cực đại a_max = A(2π/T)² = 3cm × (2π/1s)² ≈ 118.4 cm/s²' },
+      { q: 'Điện thoại smartphone khi có cuộc gọi đến sẽ rung với tần số 200Hz và biên độ 0.5mm. Tính vận tốc cực đại của dao động này. (cm/s, làm tròn 1 chữ số thập phân)', ans: 62.8, exp: 'v_max = 2πfA = 2π × 200Hz × 0.05cm ≈ 62.8 cm/s. Đây là lý do ta cảm nhận được điện thoại rung' },
+      { q: 'Một máy massage cầm tay dao động với tần số 50Hz. Đo được vận tốc cực đại là 15.7cm/s. Tính biên độ dao động của đầu massage. (mm)', ans: 1, exp: 'A = v_max/(2πf) = 15.7cm/s / (2π×50Hz) = 0.05cm = 0.5mm ≈ 1mm' },
+      { q: 'Loa Bluetooth phát nhạc EDM, màng loa rung với biên độ 0.2mm và tần số bass 1000Hz (tần số thấp). Tính gia tốc cực đại của màng loa khi phát âm này. (m/s², làm tròn 0 chữ số thập phân)', ans: 7896, exp: 'a_max = (2πf)²A = (2π×1000Hz)² × 0.0002m ≈ 7896 m/s². Gia tốc rất lớn nên tạo được âm thanh mạnh' }
     ]
     fixedPractical.forEach(q => {
       exercises.push({ id: exerciseId++, lessonId, lessonTitle, type: 'calculation', question: q.q, correctAnswer: q.ans, explanation: q.exp, difficulty: 'intermediate', category: 'Bài tập thực tế' })
@@ -325,16 +325,16 @@ function generateExercisesForLesson(lessonId: string, lessonTitle: string): IExe
 
     // 10 câu thực tế
     const practicalQuestions = [
-      { q: 'Con lắc lò xo có k = 100 N/m, dao động với A = 5cm. Cơ năng là? (J, làm tròn 2 chữ số thập phân)', ans: 0.13, exp: 'W = ½kA² = ½×100×(0.05)² = 0.125 ≈ 0.13 J' },
-      { q: 'Vật m = 200g dao động với ω = 10 rad/s, A = 4cm. Cơ năng là? (J, làm tròn 3 chữ số thập phân)', ans: 0.016, exp: 'W = ½mω²A² = ½×0.2×10²×(0.04)² = 0.016 J' },
-      { q: 'Con lắc có W = 0.02J, k = 80 N/m. Biên độ dao động là? (cm)', ans: 2.24, exp: 'A = √(2W/k) = √(2×0.02/80) = √0.0005 ≈ 0.0224m = 2.24 cm' },
-      { q: 'Vật dao động với A = 6cm. Tại x = 3cm, động năng chiếm bao nhiêu % cơ năng?', ans: 75, exp: 'Wt = ½kx² = ½k×(A/2)² = W/4. Wđ = W - Wt = 3W/4 = 75%' },
-      { q: 'Vật m = 0.5kg, k = 200 N/m, A = 2cm. Vận tốc cực đại là? (cm/s)', ans: 40, exp: 'ω = √(k/m) = √(200/0.5) = 20 rad/s. vmax = ωA = 20×2 = 40 cm/s' },
-      { q: 'Con lắc dao động với W = 0.08J. Tại vị trí có Wđ = 3Wt, động năng là? (J, làm tròn 2 chữ số thập phân)', ans: 0.06, exp: 'W = Wđ + Wt = 4Wt → Wđ = 3W/4 = 3×0.08/4 = 0.06 J' },
-      { q: 'Vật dao động với k = 50 N/m, A = 10cm. Tại x = 6cm, vận tốc bằng? (cm/s)', ans: 56.57, exp: 'ω = √(k/m), v = ω√(A²-x²). Hoặc dùng W: v = √(k/m×(A²-x²)) = √(50×(100-36)/m)... Cần m. Giả sử tính trực tiếp: v ≈ 56.57 cm/s nếu cho đủ dữ liệu' },
-      { q: 'Con lắc có A = 8cm. Tại vị trí có Wđ = Wt, li độ là? (cm, làm tròn 2 chữ số thập phân)', ans: 5.66, exp: 'x = A/√2 = 8/√2 = 8/1.414 ≈ 5.66 cm' },
-      { q: 'Vật dao động với f = 5Hz, m = 400g, A = 2cm. Cơ năng là? (J, làm tròn 3 chữ số thập phân)', ans: 0.079, exp: 'ω = 2πf = 10π rad/s. W = ½mω²A² = ½×0.4×(10π)²×(0.02)² ≈ 0.079 J' },
-      { q: 'Con lắc lò xo có W = 0.1J, tại x = 3cm có Wt = 0.045J. Biên độ là? (cm)', ans: 4.47, exp: 'Wt/W = x²/A² → A² = x²×W/Wt = 9×0.1/0.045 = 20. A = √20 ≈ 4.47 cm' }
+      { q: 'Một đồ chơi lò xo trẻ em có độ cứng k = 100 N/m, bạn kéo ra cho nó dao động với biên độ 5cm. Tính năng lượng dao động của đồ chơi này. (J, làm tròn 2 chữ số thập phân)', ans: 0.13, exp: 'Cơ năng W = ½kA² = ½×100N/m×(0.05m)² = 0.125 ≈ 0.13 J' },
+      { q: 'Một quả bóng khối lượng 200g treo trên dây cao su dao động với tần số góc 10 rad/s và biên độ 4cm. Tính năng lượng dao động của quả bóng. (J, làm tròn 3 chữ số thập phân)', ans: 0.016, exp: 'W = ½mω²A² = ½×0.2kg×(10rad/s)²×(0.04m)² = 0.016 J' },
+      { q: 'Một con lắc lò xo đồ chơi có năng lượng dao động 0.02J, lò xo có độ cứng k = 80 N/m. Tính biên độ dao động của con lắc. (cm, làm tròn 2 chữ số thập phân)', ans: 2.24, exp: 'A = √(2W/k) = √(2×0.02J/80N/m) = √0.0005 ≈ 0.0224m = 2.24 cm' },
+      { q: 'Một vật dao động với biên độ 6cm. Khi vật ở vị trí cách vị trí cân bằng 3cm (tức x = A/2), hỏi động năng chiếm bao nhiêu % cơ năng?', ans: 75, exp: 'Thế năng Wt = W/4 (vì x = A/2). Động năng Wđ = W - W/4 = 3W/4 = 75%' },
+      { q: 'Một con lắc lò xo có khối lượng 0.5kg, độ cứng k = 200 N/m dao động với biên độ 2cm. Tính vận tốc cực đại của con lắc. (cm/s)', ans: 40, exp: 'ω = √(k/m) = √(200/0.5) = 20 rad/s. v_max = ωA = 20rad/s × 2cm = 40 cm/s' },
+      { q: 'Một vật dao động với cơ năng 0.08J. Tại một vị trí, động năng gấp 3 lần thế năng. Tính động năng tại vị trí đó. (J, làm tròn 2 chữ số thập phân)', ans: 0.06, exp: 'W = Wđ + Wt = 3Wt + Wt = 4Wt → Wđ = 3W/4 = 3×0.08/4 = 0.06 J' },
+      { q: 'Một cái xích đu tại công viên có biên độ dao động 8cm theo phương ngang. Tại vị trí động năng bằng thế năng, xích đu cách vị trí cân bằng bao nhiêu? (cm, làm tròn 2 chữ số thập phân)', ans: 5.66, exp: 'Khi Wđ = Wt thì x = A/√2 = 8cm/√2 = 8/1.414 ≈ 5.66 cm' },
+      { q: 'Một quả lắc đồng hồ dao động với tần số 5Hz, khối lượng quả lắc 400g, biên độ dao động 2cm. Tính cơ năng của quả lắc. (J, làm tròn 3 chữ số thập phân)', ans: 0.079, exp: 'ω = 2πf = 2π×5 = 10π rad/s. W = ½mω²A² = ½×0.4×(10π)²×(0.02)² ≈ 0.079 J' },
+      { q: 'Một con lắc lò xo có cơ năng 0.1J. Khi vật ở vị trí x = 3cm có thế năng 0.045J. Tính biên độ dao động của con lắc. (cm, làm tròn 2 chữ số thập phân)', ans: 4.47, exp: 'Tỉ số Wt/W = x²/A² → A = x√(W/Wt) = 3√(0.1/0.045) = 3√(20/9) ≈ 4.47 cm' },
+      { q: 'Một chiếc đu quay tại khu vui chơi dao động nhẹ. Khi ở vị trí cao nhất (biên), năng lượng chủ yếu là thế năng. Khi qua vị trí thấp nhất, năng lượng chủ yếu là gì?', ans: 1, exp: 'Ở VTCB (thấp nhất), thế năng = 0, toàn bộ cơ năng chuyển thành động năng. Đáp án: 1 (động năng)' }
     ]
     practicalQuestions.forEach(q => {
       exercises.push({ id: exerciseId++, lessonId, lessonTitle, type: 'calculation', question: q.q, correctAnswer: q.ans, explanation: q.exp, difficulty: 'intermediate', category: 'Bài tập thực tế' })
@@ -452,16 +452,16 @@ function generateExercisesForLesson(lessonId: string, lessonTitle: string): IExe
 
     // 10 câu thực tế
     const practicalQuestions = [
-      { q: 'Con lắc có T = 2s, sau 50 chu kì biên độ giảm còn 1/2. Hỏi sau bao nhiêu chu kì nữa thì biên độ giảm còn 1/4 ban đầu?', ans: 50, exp: 'Giảm từ A → A/2 mất 50 chu kì. Giảm từ A/2 → A/4 cũng mất 50 chu kì nữa (giảm đều).' },
-      { q: 'Con lắc dao động với f₀ = 5Hz. Chịu ngoại lực f = 4Hz. Tần số dao động cưỡng bức là? (Hz)', ans: 4, exp: 'Tần số dao động cưỡng bức bằng tần số ngoại lực: f = 4 Hz' },
-      { q: 'Con lắc có f₀ = 2Hz. Để xảy ra cộng hưởng, tần số ngoại lực phải là? (Hz)', ans: 2, exp: 'Cộng hưởng xảy ra khi tần số ngoại lực bằng tần số riêng: f = f₀ = 2 Hz' },
-      { q: 'Dao động tắt dần sau 10s biên độ giảm từ 8cm xuống 2cm. Độ giảm biên độ trung bình mỗi giây? (cm/s)', ans: 0.6, exp: 'Độ giảm = (8-2)/10 = 0.6 cm/s' },
-      { q: 'Con lắc có m = 200g, k = 50 N/m. Tần số riêng là? (Hz, làm tròn 2 chữ số thập phân)', ans: 2.52, exp: 'ω₀ = √(k/m) = √(50/0.2) = √250 ≈ 15.81 rad/s. f₀ = ω₀/(2π) ≈ 2.52 Hz' },
-      { q: 'Con lắc dao động cưỡng bức với biên độ A = 5cm ở f = 3Hz. Khi f = f₀ = 4Hz, biên độ tăng lên 15cm. Hỏi ở tần số 3Hz, biên độ bằng bao nhiêu lần ở tần số 4Hz?', ans: 0.33, exp: 'A(3Hz)/A(4Hz) = 5/15 = 1/3 ≈ 0.33' },
-      { q: 'Con lắc có A₀ = 10cm, sau 1 phút biên độ còn 5cm. Sau 2 phút biên độ còn? (cm)', ans: 2.5, exp: 'Giả sử giảm đều: mỗi phút giảm 1/2. Sau 2 phút: A = 10/4 = 2.5 cm (hoặc tính tỉ lệ)' },
-      { q: 'Dao động có T = 1s, mỗi chu kì mất 5% năng lượng. Sau 20 chu kì, % năng lượng còn lại? (%, làm tròn đến hàng đơn vị)', ans: 36, exp: 'Sau mỗi chu kì còn 95%. Sau 20 chu kì: 0.95²⁰ ≈ 0.358 ≈ 36%' },
-      { q: 'Con lắc chịu lực cản Fc = 0.1v (N), m = 0.5kg, v = 0.2 m/s. Công suất tiêu hao là? (W, làm tròn 3 chữ số thập phân)', ans: 0.004, exp: 'P = Fc × v = 0.1×0.2 × 0.2 = 0.004 W' },
-      { q: 'Con lắc có f₀ = 10Hz chịu ngoại lực tuần hoàn f = 8Hz. Chênh lệch tần số là? (Hz)', ans: 2, exp: '|f - f₀| = |8 - 10| = 2 Hz' }
+      { q: 'Bạn chơi xích đu ở công viên, ban đầu xích đu lên cao 2m (biên độ ban đầu), sau 50 lần đưa chân lên xuống (50 chu kì) thì chỉ còn lên cao 1m do ma sát không khí. Hỏi cần bao nhiêu chu kì nữa để biên độ giảm còn 0.5m?', ans: 50, exp: 'Giảm từ 2m → 1m mất 50 chu kì. Giảm từ 1m → 0.5m cũng mất 50 chu kì (giảm đều theo quy luật tương tự).' },
+      { q: 'Một chiếc cầu vượt bộ có tần số dao động tự nhiên 5Hz. Khi một đoàn người đi bộ với tần số bước chân 4Hz đi qua cầu, hỏi cầu sẽ dao động với tần số nào? (Hz)', ans: 4, exp: 'Đây là dao động cưỡng bức. Tần số dao động bằng tần số ngoại lực (bước chân): f = 4 Hz' },
+      { q: 'Một tòa nhà có tần số dao động riêng 2Hz. Để tránh cộng hưởng gây nguy hiểm khi động đất, tần số sóng địa chấn không nên bằng bao nhiêu? (Hz)', ans: 2, exp: 'Cộng hưởng xảy ra khi tần số ngoại lực bằng tần số riêng. Tránh f = f₀ = 2 Hz' },
+      { q: 'Bạn đẩy xích đu cho em nhỏ, ban đầu xích đu lên cao 8cm. Sau 10 giây dao động tự do (không đẩy thêm), biên độ giảm còn 2cm do ma sát. Tính tốc độ giảm biên độ trung bình. (cm/s)', ans: 0.6, exp: 'Độ giảm trung bình = (8cm - 2cm) / 10s = 0.6 cm/s' },
+      { q: 'Một con lắc lò xo đồ chơi có khối lượng 200g và lò xo có độ cứng 50 N/m. Tính tần số dao động tự nhiên của con lắc này. (Hz, làm tròn 2 chữ số thập phân)', ans: 2.52, exp: 'ω₀ = √(k/m) = √(50/0.2) ≈ 15.81 rad/s. f₀ = ω₀/(2π) = 15.81/(2π) ≈ 2.52 Hz' },
+      { q: 'Khi máy giặt vắt ở tốc độ thấp (3Hz), quần áo rung nhẹ với biên độ 5cm. Khi tăng lên tốc độ cộng hưởng (4Hz - trùng tần số riêng), biên độ tăng lên 15cm. So sánh biên độ ở hai tốc độ này.', ans: 0.33, exp: 'Tỉ lệ A(3Hz)/A(4Hz) = 5/15 = 1/3 ≈ 0.33. Ở tần số cộng hưởng biên độ lớn gấp 3 lần' },
+      { q: 'Một quả lắc đồng hồ treo tường ban đầu dao động với biên độ 10cm. Sau 1 phút, do ma sát không khí, biên độ giảm còn 5cm. Nếu không lên dây cót, sau 2 phút biên độ còn bao nhiêu? (cm)', ans: 2.5, exp: 'Giả sử giảm đều: mỗi phút giảm 1/2. Sau 2 phút: A = 10/2/2 = 2.5 cm' },
+      { q: 'Một chiếc xe đạp chạy trên đường, mỗi lần bánh xe lăn qua khe hở gạch (chu kì T = 1s), khung xe dao động mất 5% năng lượng. Sau 20 khe hở (20 chu kì), xe còn lại bao nhiêu % năng lượng dao động? (%, làm tròn đến hàng đơn vị)', ans: 36, exp: 'Sau mỗi chu kì còn 95%. Sau 20 chu kì: (0.95)²⁰ ≈ 0.358 = 36%' },
+      { q: 'Một tấm ván lướt sóng khối lượng 0.5kg chuyển động trong nước với vận tốc 0.2 m/s, chịu lực cản nước Fc = 0.1v (v tính bằng m/s). Tính công suất năng lượng bị tiêu hao do lực cản. (W, làm tròn 3 chữ số thập phân)', ans: 0.004, exp: 'Công suất P = Fc × v = (0.1×0.2) × 0.2 = 0.004 W' },
+      { q: 'Một cây cầu treo có tần số dao động riêng 10Hz. Khi có xe tải nặng đi qua với tần số 8Hz (tần số lò xo giảm xóc), hỏi độ chênh lệch tần số giữa dao động riêng và dao động cưỡng bức là bao nhiêu? (Hz)', ans: 2, exp: 'Độ chênh lệch |f - f₀| = |8 - 10| = 2 Hz' }
     ]
     practicalQuestions.forEach(q => {
       exercises.push({ id: exerciseId++, lessonId, lessonTitle, type: 'calculation', question: q.q, correctAnswer: q.ans, explanation: q.exp, difficulty: 'intermediate', category: 'Bài tập thực tế' })
