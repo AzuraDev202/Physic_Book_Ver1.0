@@ -4,6 +4,41 @@
 
 /* Custom CSS chuyển đổi từ style.css gốc */
 
+/* Fix font cho AI Sidebar */
+.ai-sidebar,
+.ai-sidebar *,
+[class*="ai-"] {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Fix timestamp */
+.ai-sidebar .text-xs {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Fix message text */
+.ai-sidebar .text-sm {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+}
+
+/* Fix input */
+.ai-sidebar input::placeholder {
+  font-weight: 400 !important;
+  color: #9ca3af !important;
+}
+
+/* Fix button text */
+.ai-sidebar button {
+  font-weight: 500 !important;
+}
+
 :root {
   /* Light Theme Colors */
   --primary-color: #2563eb;
