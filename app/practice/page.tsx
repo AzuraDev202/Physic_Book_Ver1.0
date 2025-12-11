@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation'
 
 interface Exercise {
   id: number
+  lessonId: string
+  lessonTitle: string
   type: 'multiple-choice' | 'calculation' | 'true-false'
   question: string
   options?: string[]
-  correctAnswer: string | number
+  correctAnswer: string | number | boolean
   explanation: string
-  difficulty: 'easy' | 'medium' | 'hard'
-  lesson: number
+  difficulty: 'basic' | 'intermediate' | 'advanced'
+  category: string
 }
 
 interface AIAnalysis {
@@ -56,138 +58,58 @@ export default function PracticePage() {
   const [completed, setCompleted] = useState<boolean[]>([])
   const [startTime, setStartTime] = useState<Date | null>(null)
   const [showFinalResult, setShowFinalResult] = useState(false)
+  const [exercises, setExercises] = useState<Exercise[]>([])
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  const exercises: Exercise[] = [
-    {
-      id: 1,
-      type: 'multiple-choice',
-      question: 'Dao động điều hòa là gì?',
-      options: [
-        'Chuyển động thẳng đều',
-        'Chuyển động có li độ biến thiên theo quy luật sin hoặc cos theo thời gian',
-        'Chuyển động tròn đều',
-        'Chuyển động thẳng biến đổi đều'
-      ],
-      correctAnswer: 1,
-      explanation: 'Dao động điều hòa là dao động có li độ biến thiên theo quy luật hàm sin hoặc cos của thời gian.',
-      difficulty: 'easy',
-      lesson: 1
-    },
-    {
-      id: 2,
-      type: 'multiple-choice',
-      question: 'Đơn vị của tần số góc là gì?',
-      options: ['Hz', 'rad/s', 's', 'm/s'],
-      correctAnswer: 1,
-      explanation: 'Tần số góc ω có đơn vị là rad/s (radian trên giây).',
-      difficulty: 'easy',
-      lesson: 1
-    },
-    {
-      id: 3,
-      type: 'calculation',
-      question: 'Một vật dao động điều hòa với chu kì T = 0,5s. Tần số dao động là bao nhiêu?',
-      correctAnswer: 2,
-      explanation: 'Tần số f = 1/T = 1/0,5 = 2 Hz',
-      difficulty: 'medium',
-      lesson: 1
-    },
-    {
-      id: 4,
-      type: 'multiple-choice',
-      question: 'Trong dao động điều hòa x = Acos(ωt + φ), đại lượng A được gọi là gì?',
-      options: ['Tần số góc', 'Pha ban đầu', 'Biên độ dao động', 'Li độ'],
-      correctAnswer: 2,
-      explanation: 'A là biên độ dao động, thể hiện độ lệch cực đại của vật khỏi vị trí cân bằng.',
-      difficulty: 'easy',
-      lesson: 2
-    },
-    {
-      id: 5,
-      type: 'multiple-choice',
-      question: 'Vận tốc trong dao động điều hòa x = Acos(ωt + φ) là:',
-      options: [
-        'v = Aωcos(ωt + φ)',
-        'v = -Aωsin(ωt + φ)',
-        'v = -Aω²cos(ωt + φ)',
-        'v = Aωsin(ωt + φ)'
-      ],
-      correctAnswer: 1,
-      explanation: 'Vận tốc v = dx/dt = -Aωsin(ωt + φ)',
-      difficulty: 'medium',
-      lesson: 2
-    },
-    {
-      id: 6,
-      type: 'true-false',
-      question: 'Cơ năng trong dao động điều hòa luôn được bảo toàn.',
-      correctAnswer: 'true',
-      explanation: 'Đúng. Trong dao động điều hòa lý tưởng (không có ma sát), cơ năng W = ½kA² = ½mω²A² = hằng số.',
-      difficulty: 'medium',
-      lesson: 3
-    },
-    {
-      id: 7,
-      type: 'multiple-choice',
-      question: 'Động năng của vật dao động điều hòa đạt cực đại khi:',
-      options: [
-        'Vật ở vị trí biên',
-        'Vật ở vị trí cân bằng',
-        'Vận tốc bằng 0',
-        'Li độ x = A/2'
-      ],
-      correctAnswer: 1,
-      explanation: 'Động năng đạt cực đại khi vận tốc đạt cực đại, tức là khi vật đi qua vị trí cân bằng (x = 0).',
-      difficulty: 'medium',
-      lesson: 3
-    },
-    {
-      id: 8,
-      type: 'multiple-choice',
-      question: 'Hiện tượng cộng hưởng xảy ra khi:',
-      options: [
-        'Tần số ngoại lực bằng tần số riêng của hệ',
-        'Biên độ dao động đạt cực tiểu',
-        'Vật ngừng dao động',
-        'Ma sát rất lớn'
-      ],
-      correctAnswer: 0,
-      explanation: 'Cộng hưởng xảy ra khi tần số của ngoại lực cưỡng bức bằng tần số riêng của hệ dao động.',
-      difficulty: 'hard',
-      lesson: 4
-    },
-    {
-      id: 9,
-      type: 'true-false',
-      question: 'Dao động tắt dần có chu kì không đổi.',
-      correctAnswer: 'true',
-      explanation: 'Đúng. Nếu ma sát nhỏ, chu kì dao động tắt dần gần như không đổi so với dao động tự do.',
-      difficulty: 'medium',
-      lesson: 4
-    },
-    {
-      id: 10,
-      type: 'calculation',
-      question: 'Một lò xo có k = 100 N/m, khối lượng vật m = 1kg dao động với biên độ A = 0,1m. Cơ năng dao động là bao nhiêu? (J)',
-      correctAnswer: 0.5,
-      explanation: 'Cơ năng W = ½kA² = ½ × 100 × (0,1)² = 0,5 J',
-      difficulty: 'hard',
-      lesson: 3
+  // Fetch exercises từ database
+  useEffect(() => {
+    const fetchExercises = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('/api/exercises')
+        const data = await response.json()
+        
+        if (data.success && data.exercises) {
+          // Lấy ngẫu nhiên 6 câu cho mỗi bài (4 bài, tổng 24 câu)
+          const selectedExercises: Exercise[] = []
+          
+          for (let lessonId = 1; lessonId <= 4; lessonId++) {
+            const lessonExercises = data.exercises.filter(
+              (ex: Exercise) => ex.lessonId === lessonId.toString()
+            )
+            
+            // Shuffle và lấy 6 câu ngẫu nhiên
+            const shuffled = [...lessonExercises].sort(() => Math.random() - 0.5)
+            const selected = shuffled.slice(0, 6)
+            selectedExercises.push(...selected)
+          }
+          
+          // Shuffle tất cả các câu đã chọn
+          const finalExercises = selectedExercises.sort(() => Math.random() - 0.5)
+          setExercises(finalExercises)
+          setCompleted(new Array(finalExercises.length).fill(false))
+        }
+      } catch (error) {
+        console.error('Error fetching exercises:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+
+    fetchExercises()
+  }, [])
 
   useEffect(() => {
     setMounted(true)
     const savedTheme = localStorage.getItem('physics-book-theme') || 'light'
     setTheme(savedTheme)
     document.documentElement.className = savedTheme
-    setCompleted(new Array(exercises.length).fill(false))
     setStartTime(new Date())
   }, [])
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : theme === 'dark' ? 'sepia' : 'light'
+    const newTheme = theme === 'light' ? 'dark' : 'light'
     setTheme(newTheme)
     document.documentElement.className = newTheme
     localStorage.setItem('physics-book-theme', newTheme)
@@ -197,6 +119,23 @@ export default function PracticePage() {
     if (showResult) return
     setSelectedAnswer(answer)
   }
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (showResult) return
+    
+    const exercise = exercises[currentExercise]
+    if (exercise.type === 'multiple-choice' && exercise.options) {
+      const key = parseInt(e.key)
+      if (key >= 1 && key <= exercise.options.length) {
+        handleAnswerSelect(key - 1)
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [currentExercise, showResult, exercises])
 
   const handleSubmit = () => {
     if (selectedAnswer === '') return
@@ -357,34 +296,99 @@ export default function PracticePage() {
     }
   }
 
+  const handlePrevious = () => {
+    if (currentExercise > 0) {
+      setCurrentExercise(currentExercise - 1)
+      setSelectedAnswer('')
+      setShowResult(false)
+    }
+  }
+
   const handleRestart = () => {
     setCurrentExercise(0)
-    setScore(0)
     setSelectedAnswer('')
     setShowResult(false)
+    setScore(0)
     setShowFinalResult(false)
-    setCompleted(new Array(exercises.length).fill(false))
     setStartTime(new Date())
+    
+    // Fetch lại exercises mới
+    const fetchExercises = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('/api/exercises')
+        const data = await response.json()
+        
+        if (data.success && data.exercises) {
+          const selectedExercises: Exercise[] = []
+          
+          for (let lessonId = 1; lessonId <= 4; lessonId++) {
+            const lessonExercises = data.exercises.filter(
+              (ex: Exercise) => ex.lessonId === lessonId.toString()
+            )
+            
+            const shuffled = [...lessonExercises].sort(() => Math.random() - 0.5)
+            const selected = shuffled.slice(0, 6)
+            selectedExercises.push(...selected)
+          }
+          
+          const finalExercises = selectedExercises.sort(() => Math.random() - 0.5)
+          setExercises(finalExercises)
+          setCompleted(new Array(finalExercises.length).fill(false))
+        }
+      } catch (error) {
+        console.error('Error fetching exercises:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchExercises()
   }
 
-  const getScoreColor = (percentage: number) => {
-    if (percentage >= 80) return 'text-green-600 dark:text-green-400'
-    if (percentage >= 60) return 'text-yellow-600 dark:text-yellow-400'
-    return 'text-red-600 dark:text-red-400'
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case 'basic': return 'text-green-600 dark:text-green-400'
+      case 'intermediate': return 'text-yellow-600 dark:text-yellow-400'
+      case 'advanced': return 'text-red-600 dark:text-red-400'
+      default: return 'text-gray-600'
+    }
   }
 
-  const getScoreMessage = (percentage: number) => {
-    if (percentage >= 90) return 'Xuất sắc! 🏆'
-    if (percentage >= 80) return 'Tốt! 👏'
-    if (percentage >= 70) return 'Khá! 👍'
-    if (percentage >= 60) return 'Trung bình! 📚'
-    return 'Cần cố gắng hơn! 💪'
+  const getDifficultyLabel = (difficulty: string) => {
+    switch (difficulty) {
+      case 'basic': return 'Cơ bản'
+      case 'intermediate': return 'Thông hiểu'
+      case 'advanced': return 'Vận dụng cao'
+      default: return difficulty
+    }
   }
 
-  if (!mounted) {
+  if (!mounted) return null
+
+  if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-300">Đang tải bài tập...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (exercises.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">Không có bài tập nào</p>
+          <button
+            onClick={() => router.push('/')}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Quay lại trang chủ
+          </button>
+        </div>
       </div>
     )
   }
@@ -410,7 +414,9 @@ export default function PracticePage() {
 
   if (showFinalResult) {
     const percentage = Math.round((score / exercises.length) * 100)
-    const timeTaken = startTime ? Math.round((new Date().getTime() - startTime.getTime()) / 1000 / 60) : 0
+    const totalTime = startTime ? Math.floor((new Date().getTime() - startTime.getTime()) / 1000) : 0
+    const minutes = Math.floor(totalTime / 60)
+    const seconds = totalTime % 60
 
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
@@ -433,17 +439,26 @@ export default function PracticePage() {
               </div>
               <div className="text-xl text-gray-600 dark:text-gray-300">
                 {getScoreMessage(percentage)}
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
+              🎉 Hoàn thành bài luyện tập!
+            </h2>
+            
+            <div className="space-y-4 mb-8">
+              <div className="flex justify-between items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <span className="text-gray-700 dark:text-gray-300">Số câu đúng:</span>
+                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {score}/{exercises.length}
+                </span>
               </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {timeTaken}
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-300">
-                  Phút hoàn thành
-                </div>
+              
+              <div className="flex justify-between items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <span className="text-gray-700 dark:text-gray-300">Điểm số:</span>
+                <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                  {percentage}%
+                </span>
               </div>
 
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -479,11 +494,21 @@ export default function PracticePage() {
                   </>
                 )}
               </button>
+              
+              <div className="flex justify-between items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <span className="text-gray-700 dark:text-gray-300">Thời gian:</span>
+                <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                  {minutes}:{seconds.toString().padStart(2, '0')}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex gap-4">
               <button
                 onClick={handleRestart}
-                className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
               >
-                🔄 Làm lại
+                Làm lại
               </button>
 
               <button
@@ -495,9 +520,9 @@ export default function PracticePage() {
 
               <button
                 onClick={() => router.push('/')}
-                className="w-full px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+                className="flex-1 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
               >
-                🏠 Về trang chủ
+                Quay lại
               </button>
             </div>
           </div>
@@ -614,7 +639,7 @@ export default function PracticePage() {
   }
 
   const exercise = exercises[currentExercise]
-  const isCorrect = selectedAnswer === exercise.correctAnswer
+  const progress = ((currentExercise + 1) / exercises.length) * 100
 
   return (
 
@@ -648,7 +673,25 @@ export default function PracticePage() {
                 {theme === 'light' ? '🌙' : theme === 'dark' ? '☀️' : '🌅'}
               </button>
             </div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div className="w-24"></div>
+          
+          <div className="text-center flex-1">
+            <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Luyện tập</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Câu {currentExercise + 1}/{exercises.length}
+            </p>
           </div>
+
+          <button
+            onClick={toggleTheme}
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
         </div>
       </header>
 
@@ -686,12 +729,91 @@ export default function PracticePage() {
               </div>
             </div>
 
-            {/* Question */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white leading-relaxed">
-                {exercise.question}
-              </h2>
+        {/* Navigation buttons */}
+        <div className="flex gap-2 mb-4">
+          <button
+            onClick={() => router.push('/lessons')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+          >
+            📚 Danh sách bài học
+          </button>
+          <div className="flex-1"></div>
+          <button
+            onClick={handlePrevious}
+            disabled={currentExercise === 0}
+            className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+          >
+            ← Câu trước
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={currentExercise === exercises.length - 1}
+            className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+          >
+            Câu sau →
+          </button>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mb-6">
+          <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-blue-600 transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Exercise Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+          {/* Exercise Info */}
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
+              {exercise.lessonTitle}
+            </span>
+            <span className={`text-sm font-semibold ${getDifficultyColor(exercise.difficulty)}`}>
+              {getDifficultyLabel(exercise.difficulty)}
+            </span>
+          </div>
+
+          {/* Question */}
+          <div className="mb-6">
+            <p className="text-lg text-gray-800 dark:text-white leading-relaxed">
+              {exercise.question}
+            </p>
+          </div>
+
+          {/* Answer Options */}
+          {exercise.type === 'multiple-choice' && exercise.options && (
+            <div className="space-y-3 mb-6">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                (Nhấn phím 1-{exercise.options.length} để chọn nhanh)
+              </p>
+              {exercise.options.map((option, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleAnswerSelect(index)}
+                  disabled={showResult}
+                  className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+                    selectedAnswer === index
+                      ? showResult
+                        ? index === exercise.correctAnswer
+                          ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                          : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+                        : 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : showResult && index === exercise.correctAnswer
+                      ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500'
+                  } ${showResult ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <span className="inline-block w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 text-center leading-8 mr-3 font-semibold">
+                    {index + 1}
+                  </span>
+                  <span className="text-gray-800 dark:text-white">{option}</span>
+                </button>
+              ))}
             </div>
+          )}
 
             {/* Answer Options */}
             <div className="space-y-3 mb-8">
@@ -779,7 +901,19 @@ export default function PracticePage() {
                   )}
                 </div>
               )}
+          {exercise.type === 'calculation' && (
+            <div className="mb-6">
+              <input
+                type="number"
+                step="0.01"
+                value={selectedAnswer}
+                onChange={(e) => handleAnswerSelect(parseFloat(e.target.value) || '')}
+                disabled={showResult}
+                placeholder="Nhập đáp án..."
+                className="w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
+              />
             </div>
+          )}
 
             {/* Result and Explanation */}
             {showResult && (
@@ -799,14 +933,39 @@ export default function PracticePage() {
                 </p>
               </div>
             )}
+          {/* Result */}
+          {showResult && (
+            <div className={`p-4 rounded-lg mb-6 ${
+              selectedAnswer === exercise.correctAnswer
+                ? 'bg-green-50 dark:bg-green-900/20 border-2 border-green-500'
+                : 'bg-red-50 dark:bg-red-900/20 border-2 border-red-500'
+            }`}>
+              <p className={`font-semibold mb-2 ${
+                selectedAnswer === exercise.correctAnswer
+                  ? 'text-green-700 dark:text-green-400'
+                  : 'text-red-700 dark:text-red-400'
+              }`}>
+                {selectedAnswer === exercise.correctAnswer ? '✓ Chính xác!' : '✗ Sai rồi!'}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 mb-1">
+                <strong>Đáp án đúng:</strong> {exercise.correctAnswer}
+              </p>
+              <p className="text-gray-700 dark:text-gray-300">
+                <strong>Giải thích:</strong> {exercise.explanation}
+              </p>
+            </div>
+          )}
 
-            {/* Action Buttons */}
-            <div className="flex justify-between">
+          {/* Navigation Buttons */}
+          <div className="flex gap-4">
+
+            {!showResult ? (
               <button
-                onClick={() => router.push('/lessons')}
-                className="px-6 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors"
+                onClick={handleSubmit}
+                disabled={selectedAnswer === ''}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
               >
-                ← Quay lại
+                Kiểm tra
               </button>
 
               {!showResult ? (
@@ -834,6 +993,22 @@ export default function PracticePage() {
       </main>
 
 
+            ) : (
+              <button
+                onClick={handleNext}
+                className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+              >
+                {currentExercise === exercises.length - 1 ? 'Hoàn thành' : 'Tiếp theo →'}
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Score */}
+        <div className="text-center text-gray-600 dark:text-gray-400">
+          <p>Điểm hiện tại: <span className="font-bold text-blue-600 dark:text-blue-400">{score}/{currentExercise + (showResult ? 1 : 0)}</span></p>
+        </div>
+      </div>
     </div>
   )
 }

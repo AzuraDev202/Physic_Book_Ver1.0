@@ -55,10 +55,7 @@ const chapter = {
               <h4 class="font-semibold text-yellow-800 dark:text-yellow-100 mb-2">⚠️Chú ý:</h4>
               <p class="text-sm">Dao động khác với chuyển động tròn đều ở chỗ: dao động có giới hạn trong không gian và có sự đổi chiều chuyển động.</p>
             </div>
-            <div class="mt-8">
-              <h3 class="font-bold text-lg mb-4 text-center">Mô phỏng dao động điều hòa</h3>
-              <div id="simulation-simple"></div>
-            </div>
+            
           `,
           notes: 'Dao động xuất hiện khắp nơi trong tự nhiên và công nghệ.'
         },
@@ -86,16 +83,7 @@ const chapter = {
                 </div>
               </div>
             </div>
-            <div class="mt-8">
-              <h3 class="font-bold text-lg mb-4 text-center">Mô phỏng con lắc lò xo</h3>
-              <div id="simulation-spring"></div>
-              <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-3">Mô phỏng dao động tự do của con lắc lò xo</p>
-            </div>
-            <div class="mt-8">
-              <h3 class="font-bold text-lg mb-4 text-center">Mô phỏng con lắc đơn</h3>
-              <div id="simulation-pendulum"></div>
-              <p class="text-center text-sm text-gray-600 dark:text-gray-400 mt-3">Mô phỏng dao động của con lắc đơn với góc lệch nhỏ</p>
-            </div>
+            
           `,
           notes: 'Chu kì và tần số liên quan nghịch đảo với nhau.'
         },
@@ -166,7 +154,7 @@ const chapter = {
                 <h3 class="font-bold text-green-800 dark:text-green-200 mb-2">2. Độ lệch pha</h3>
                 <p class="text-sm mb-3 font-medium">Độ lệch pha giữa hai dao động điều hòa cùng chu kì (cùng tần số) được xác định theo công thức:</p>
                 <div class="text-xs space-y-1">
-                  <p class="text-center text-base" style="font-size:32px">$\\Delta \\phi = \\phi_2 - \\phi_1$</p>
+                  <p class="text-center text-base" style="font-size:20px">$\\Delta \\phi = \\phi_2 - \\phi_1$</p>
                 </div>
                 <ul class="list-disc list-inside mt-2 text-sm space-y-1">
                   <li class="leading-relaxed">Nếu $\\Delta \\phi = 2k\\pi$ thì hai dao động cùng pha ($k \\in \\mathbb{Z}$).</li>
@@ -178,7 +166,7 @@ const chapter = {
                 <h3 class="font-bold text-purple-800 dark:text-purple-200 mb-2">3. Tần số góc</h3>
                 <p class="text-sm mb-3 font-medium">Tần số góc của dao động là đại lượng đặc trưng cho tốc độ biến thiên của pha dao động. Đối với dao động điều hòa tần số góc có giá trị không đổi và được xác định theo công thức:</p>
                 <div class="text-xs space-y-1">
-                  <p class="text-center text-base" style="font-size:24px">$\\omega = \\frac{\\phi_2 - \\phi_1}{t_2 - t_1} = \\frac{2\\pi}{T} = 2\\pi f$</p>
+                  <p class="text-center text-base" style="font-size:16px">$\\omega = \\frac{\\phi_2 - \\phi_1}{t_2 - t_1} = \\frac{2\\pi}{T} = 2\\pi f$</p>
                   <p class="text-sm mt-2">Với $\\phi_1$ và $\\phi_2$ lần lượt là pha dao động tại thời điểm $t_1$ và $t_2$. Đơn vị của tần số góc là rad/s.</p>
                 </div>
               </div>
