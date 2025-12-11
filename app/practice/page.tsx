@@ -176,7 +176,6 @@ export default function PracticePage() {
 
   //AI analyze
   const analyzeWithAI = async () => {
-    console.log("đã tới đây")
     if (exerciseResults.length === 0) return
 
 
@@ -247,12 +246,10 @@ export default function PracticePage() {
         })()
       }
 
-      // Debug: in kích thước dữ liệu
-      const dataSize = JSON.stringify(progressData).length
-      console.log(`📊 Data size: ${dataSize} bytes (${Math.round(dataSize / 1024)} KB)`)
+
 
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // Timeout 10s
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // Timeout 30s (tăng từ 10s)
 
       const response = await fetch('/api/ai/analyze', {
         method: 'POST',
@@ -267,21 +264,18 @@ export default function PracticePage() {
 
       if (response.ok) {
         const data = await response.json()
-        console.log("data respone: ", data)
         if (data.success && data.analysis) {
-          console.log("🔥 SETTING AI ANALYSIS:", data.analysis);
           setAiAnalysis(data.analysis)
           setShowAIAnalysis(true)
           return
         }
       }
 
-      // Fallback: nếu API lỗi, dùng phân tích cục bộ
-      throw new Error('API error')
+      // Không hiển thị gì nếu API lỗi
+      throw new Error('API failed')
 
-    } catch (error) {
-      console.error('AI Analysis error:', error)
-      setShowAIAnalysis(true)
+    } catch (error: any) {
+      // Silent fail - không hiển thị lỗi cho user
     } finally {
       setIsAnalyzing(false)
     }
