@@ -71,7 +71,7 @@ export default function PracticePage() {
         const data = await response.json()
         
         if (data.success && data.exercises) {
-          // Lấy ngẫu nhiên 6 câu cho mỗi bài (4 bài, tổng 24 câu)
+          // Lấy ngẫu nhiên 3 câu cho mỗi bài (4 bài, tổng 12 câu)
           const selectedExercises: Exercise[] = []
           
           for (let lessonId = 1; lessonId <= 4; lessonId++) {
@@ -79,9 +79,9 @@ export default function PracticePage() {
               (ex: Exercise) => ex.lessonId === lessonId.toString()
             )
             
-            // Shuffle và lấy 6 câu ngẫu nhiên
+            // Shuffle và lấy 3 câu ngẫu nhiên
             const shuffled = [...lessonExercises].sort(() => Math.random() - 0.5)
-            const selected = shuffled.slice(0, 6)
+            const selected = shuffled.slice(0, 3)
             selectedExercises.push(...selected)
           }
           
