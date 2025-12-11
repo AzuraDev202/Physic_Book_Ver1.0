@@ -219,11 +219,11 @@ export const geminiUtils = {
             let errorMessage = "Lỗi không xác định";
             let errorCode = "UNKNOWN_ERROR";
 
-            if (error.message?.includes("API key")) {
+            if (error.message?.includes("API key") || error.message?.includes("API_KEY_INVALID")) {
                 errorMessage = "API Key không hợp lệ. Vui lòng kiểm tra cấu hình.";
                 errorCode = "INVALID_API_KEY";
-            } else if (error.message?.includes("quota")) {
-                errorMessage = "Đã hết lượt sử dụng API miễn phí. Vui lòng nâng cấp tài khoản.";
+            } else if (error.message?.includes("quota") || error.status === 429) {
+                errorMessage = "Đã hết lượt sử dụng API miễn phí hoặc vượt giới hạn. Vui lòng thử lại sau.";
                 errorCode = "QUOTA_EXCEEDED";
             } else if (error.message?.includes("safety")) {
                 errorMessage = "Nội dung vi phạm chính sách an toàn.";
@@ -231,8 +231,8 @@ export const geminiUtils = {
             } else if (error.message?.includes("network")) {
                 errorMessage = "Lỗi kết nối mạng. Vui lòng kiểm tra internet.";
                 errorCode = "NETWORK_ERROR";
-            } else if (error.status === 503) {
-                errorMessage = "Máy chủ AI đang quá tải. Vui lòng thử lại sau.";
+            } else if (error.status === 503 || error.message?.includes("overloaded")) {
+                errorMessage = "Máy chủ AI đang quá tải sau 5 lần thử. Vui lòng thử lại sau vài phút.";
                 errorCode = "MODEL_OVERLOADED";
             }
 
@@ -309,31 +309,42 @@ function getFallbackResponse(prompt: string): string {
 
     // Phân loại prompt để đưa ra fallback phù hợp
     if (lowerPrompt.includes("dao động điều hòa") || lowerPrompt.includes("x = a cos")) {
-        return "Dao động điều hòa có phương trình: x = A cos(ωt + φ). Trong đó A là biên độ, ω là tần số góc, φ là pha ban đầu.";
+        return "**Dao động điều hòa** có phương trình: **x = A cos(ωt + φ)**\n\nTrong đó:\n- A: Biên độ (cm hoặc m)\n- ω: Tần số góc (rad/s), ω = 2πf = 2π/T\n- φ: Pha ban đầu (rad)\n- t: Thời gian (s)\n\nĐặc điểm: Lực tác dụng tỉ lệ với li độ và luôn hướng về VTCB.";
     }
 
-    if (lowerPrompt.includes("chu kỳ") || lowerPrompt.includes("t = ")) {
-        return "Công thức chu kỳ:\n- Con lắc lò xo: T = 2π√(m/k)\n- Con lắc đơn: T = 2π√(l/g)";
+    if (lowerPrompt.includes("chu kỳ") || lowerPrompt.includes("tần số")) {
+        return "**Công thức chu kỳ và tần số:**\n\n**Con lắc lò xo:**\n- T = 2π√(m/k)\n- f = 1/(2π)√(k/m)\n\n**Con lắc đơn:**\n- T = 2π√(l/g)\n- f = 1/(2π)√(g/l)\n\nLưu ý: T (chu kỳ - giây), f (tần số - Hz), m (khối lượng - kg), k (độ cứng - N/m), l (chiều dài - m), g ≈ 10 m/s²";
     }
 
-    if (lowerPrompt.includes("năng lượng") || lowerPrompt.includes("w = ")) {
-        return "Năng lượng dao động: W = ½kA² = ½mω²A². Năng lượng bảo toàn, chuyển hóa giữa động năng và thế năng.";
+    if (lowerPrompt.includes("năng lượng") || lowerPrompt.includes("động năng") || lowerPrompt.includes("thế năng")) {
+        return "**Năng lượng trong dao động điều hòa:**\n\n**Cơ năng (bảo toàn):**\nW = ½kA² = ½mω²A² = const\n\n**Động năng:**\nWđ = ½mv² = ½mω²(A² - x²)\n\n**Thế năng:**\nWt = ½kx² = ½mω²x²\n\n**Đặc điểm:**\n- Wđ và Wt biến thiên tuần hoàn\n- Wđ max khi qua VTCB (x=0)\n- Wt max ở vị trí biên (|x|=A)\n- W = Wđ + Wt = const";
     }
 
     if (lowerPrompt.includes("con lắc lò xo")) {
-        return "Con lắc lò xo: dao động điều hòa với chu kỳ T = 2π√(m/k). Năng lượng tỉ lệ với bình phương biên độ.";
+        return "**Con lắc lò xo:**\n\n**Điều kiện dao động điều hòa:** Lò xo nhẹ, ma sát không đáng kể\n\n**Chu kỳ:** T = 2π√(m/k)\n- Không phụ thuộc biên độ\n- Phụ thuộc m và k\n\n**Lực kéo về:** F = -kx (định luật Hooke)\n\n**Năng lượng:** W = ½kA²\n\n**Vận tốc max:** vmax = ωA (tại VTCB)\n**Gia tốc max:** amax = ω²A (tại vị trí biên)";
     }
 
     if (lowerPrompt.includes("con lắc đơn")) {
-        return "Con lắc đơn: chỉ dao động điều hòa khi góc lệch nhỏ (< 10°). Chu kỳ T = 2π√(l/g) không phụ thuộc khối lượng.";
+        return "**Con lắc đơn:**\n\n**Điều kiện dao động điều hòa:** Góc lệch nhỏ (α < 10°)\n\n**Chu kỳ:** T = 2π√(l/g)\n- Không phụ thuộc khối lượng và biên độ\n- Chỉ phụ thuộc chiều dài và gia tốc trọng trường\n\n**Lực kéo về:** F = -mgsinα ≈ -mgα (khi α nhỏ)\n\n**Vận tốc tại VTCB:** vmax = √(2gl(1-cosα₀)) ≈ α₀√(gl)\n\n**Ứng dụng:** Đồng hồ quả lắc, đo g";
     }
 
-    // Fallback chung
+    if (lowerPrompt.includes("cộng hưởng") || lowerPrompt.includes("dao động cưỡng bức")) {
+        return "**Dao động cưỡng bức và cộng hưởng:**\n\n**Dao động cưỡng bức:**\n- Dao động dưới tác dụng của ngoại lực tuần hoàn\n- Tần số = tần số ngoại lực\n- Biên độ phụ thuộc tần số ngoại lực\n\n**Cộng hưởng:**\n- Xảy ra khi: f_ngoại lực = f_riêng\n- Biên độ đạt cực đại\n- Ứng dụng: Radio, lọc tần số\n- Tác hại: Phá hủy cầu, công trình";
+    }
+
+    if (lowerPrompt.includes("tắt dần")) {
+        return "**Dao động tắt dần:**\n\n**Nguyên nhân:** Lực ma sát, lực cản\n\n**Đặc điểm:**\n- Biên độ giảm dần theo thời gian\n- Năng lượng giảm dần (chuyển thành nhiệt)\n- Chu kỳ gần như không đổi\n\n**Ứng dụng:** Giảm xóc ô tô, cân Robervan\n\n**Cách làm chậm tắt dần:** Giảm ma sát, giảm lực cản";
+    }
+
+    // Fallback chung với thông tin hữu ích
     const fallbacks = [
-        "Hiện hệ thống AI đang bận. Bạn có thể xem lại công thức: x = A cos(ωt + φ) cho dao động điều hòa.",
-        "Tạm thời chưa trả lời được. Nhớ rằng năng lượng dao động luôn bảo toàn: W = Wđ + Wt = const.",
-        "Kết nối có vấn đề. Chu kỳ con lắc lò xo: T = 2π√(m/k), con lắc đơn: T = 2π√(l/g).",
-        "AI đang bảo trì. Pha ban đầu φ xác định vị trí bắt đầu của dao động."
+        "**Hệ thống AI tạm thời quá tải.** Bạn có thể tham khảo:\n\n📐 **Phương trình dao động:** x = A cos(ωt + φ)\n⏱️ **Chu kỳ:** T = 2π√(m/k) (lò xo) hoặc T = 2π√(l/g) (đơn)\n⚡ **Năng lượng:** W = ½kA² = ½mω²A²",
+        
+        "**AI đang bận, vui lòng thử lại.** Trong lúc chờ:\n\n✅ Nhớ rằng năng lượng dao động luôn **bảo toàn**: W = Wđ + Wt = const\n✅ Động năng max ở **VTCB**, thế năng max ở **vị trí biên**\n✅ Vận tốc max: vmax = ωA",
+        
+        "**Máy chủ AI đang quá tải.** Công thức quan trọng:\n\n🔸 Con lắc lò xo: T = 2π√(m/k)\n🔸 Con lắc đơn: T = 2π√(l/g)\n🔸 Tần số: f = 1/T\n🔸 Tần số góc: ω = 2πf",
+        
+        "**Kết nối AI tạm thời gián đoạn.** Ghi nhớ:\n\n📌 Pha ban đầu φ xác định **vị trí bắt đầu**\n📌 Biên độ A là **li độ cực đại**\n📌 Chu kỳ T **không phụ thuộc biên độ** (với α < 10°)"
     ];
 
     return fallbacks[Math.floor(Math.random() * fallbacks.length)];
@@ -381,23 +392,29 @@ class RateLimiter {
 
 export const apiRateLimiter = new RateLimiter(60, 60000); // 60 requests/minute
 // ==================== RETRY WRAPPER ====================
-async function retryRequest<T>(fn: () => Promise<T>, retries = 3, delayMs = 1000): Promise<T> {
+async function retryRequest<T>(fn: () => Promise<T>, retries = 5, delayMs = 2000): Promise<T> {
     for (let attempt = 1; attempt <= retries; attempt++) {
         try {
             return await fn();
         } catch (err: any) {
-            // Nếu lỗi là 503 Overloaded thì retry
-            if (err.status === 503 || err.message?.includes("overloaded")) {
-                console.warn(`⚠️ Gemini overloaded. Retry ${attempt}/${retries}...`);
+            const isOverloaded = err.status === 503 || err.message?.includes("overloaded");
+            const isRateLimited = err.status === 429 || err.message?.includes("rate limit");
+            
+            if (isOverloaded || isRateLimited) {
+                const waitTime = isRateLimited ? delayMs * attempt * 2 : delayMs * attempt;
+                console.warn(`⚠️ Gemini ${isOverloaded ? 'overloaded' : 'rate limited'}. Retry ${attempt}/${retries} after ${waitTime}ms...`);
+                
                 if (attempt < retries) {
-                    await new Promise(res => setTimeout(res, delayMs * attempt)); // exponential backoff
+                    await new Promise(res => setTimeout(res, waitTime)); // exponential backoff
                     continue;
                 }
             }
-            throw err; // hết retries → throw
+            
+            // Nếu không phải lỗi tạm thời hoặc hết retries → throw
+            throw err;
         }
     }
-    throw new Error("Retry failed.");
+    throw new Error("Retry failed after all attempts.");
 }
 
 // ==================== EXPORT CHÍNH ====================
