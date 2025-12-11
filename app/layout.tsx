@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { MathProvider } from '../components/Math'
 import { AuthProvider } from '../contexts/AuthContext'
+import AISidebarSimple from '@/components/AI/AISidebarSimple';
 
 const inter = Inter({ subsets: ['latin', 'vietnamese'] })
 
@@ -21,7 +22,7 @@ export default function RootLayout({
     <html lang="vi">
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-        <script 
+        <script
           src="https://polyfill.io/v3/polyfill.min.js?features=es6"
           async
         />
@@ -40,6 +41,8 @@ export default function RootLayout({
         <AuthProvider>
           <MathProvider>
             {children}
+            {/* AI Sidebar - Chèn ở đây */}
+            <AISidebarSimple />
           </MathProvider>
         </AuthProvider>
       </body>
