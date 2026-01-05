@@ -120,7 +120,7 @@ Seed dữ liệu mẫu:
 ```bash
 node scripts/seed-chapters.js
 node scripts/generate-exercises.js
-node scripts/generate-blueprints.js
+node scripts/generate-exercise-blueprints.js
 ```
 
 Tạo tài khoản admin:
