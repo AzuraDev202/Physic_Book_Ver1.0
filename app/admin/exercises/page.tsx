@@ -448,9 +448,9 @@ export default function AdminExerciseBlueprints() {
                             key={key}
                             className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 rounded"
                           >
-                            {blueprint.type === 'calculation'
-                              ? `${key}: ${varDef.min}-${varDef.max} (${varDef.type}${varDef.decimals ? `, ${varDef.decimals}dp` : ''})`
-                              : `${key}: ${varDef}`}
+                              {blueprint.type === 'calculation' && typeof varDef === 'object' && varDef !== null
+                                ? `${key}: ${varDef.min}-${varDef.max} (${varDef.type}${varDef.decimals ? `, ${varDef.decimals}dp` : ''})`
+                                : `${key}: ${varDef}`}
                           </span>
                         ))}
                       </div>
