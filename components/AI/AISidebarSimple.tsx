@@ -1,6 +1,11 @@
 "use client";
 
 import './AIsidebarStyles.css'
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+// import rehypeKatex from "rehype-katex";
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 import React, { useState, useEffect, useRef } from 'react';
 import {
@@ -45,6 +50,61 @@ const AISidebarSimple = () => {
     const [activeTab, setActiveTab] = useState<'chat' | 'concepts'>('chat'); //| 'test'
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
+    // Hàm render text với LaTeX
+    const renderWithLatex = (text: string) => {
+        if (!text) return null;
+
+        const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[^$\n]+\$)/g);
+
+        return (
+            <>
+                {parts.map((part, index) => {
+                    if (!part) return null;
+
+                    try {
+                        // Block math: $$...$$
+                        if (part.startsWith('$$') && part.endsWith('$$')) {
+                            const math = part.slice(2, -2).trim();
+                            const html = katex.renderToString(math, {
+                                displayMode: true,
+                                throwOnError: false
+                            });
+                            return (
+                                <div
+                                    key={index}
+                                    className="my-3 overflow-x-auto"
+                                    dangerouslySetInnerHTML={{ __html: html }}
+                                />
+                            );
+                        }
+
+                        // Inline math: $...$
+                        if (part.startsWith('$') && part.endsWith('$')) {
+                            const math = part.slice(1, -1).trim();
+                            const html = katex.renderToString(math, {
+                                displayMode: false,
+                                throwOnError: false
+                            });
+                            return (
+                                <span
+                                    key={index}
+                                    dangerouslySetInnerHTML={{ __html: html }}
+                                />
+                            );
+                        }
+
+                        // Normal text
+                        return <span key={index}>{part}</span>;
+
+                    } catch (error) {
+                        console.error('LaTeX rendering error:', error);
+                        return <span key={index} className="text-red-500">{part}</span>;
+                    }
+                })}
+            </>
+        );
+    };
+
     // Các khái niệm vật lý dao động
     const physicsConcepts: Concept[] = [
         { name: "Dao động điều hòa", description: "Dao động có phương trình x = A cos(ωt + φ)" },
@@ -57,6 +117,7 @@ const AISidebarSimple = () => {
         { name: "Dao động cưỡng bức", description: "Dao động dưới tác dụng ngoại lực" },
     ];
 
+
     // Câu hỏi mẫu
     const sampleQuestions = [
         "Dao động điều hòa là gì?",
@@ -68,6 +129,7 @@ const AISidebarSimple = () => {
         "Cách viết phương trình dao động từ điều kiện ban đầu",
         "Tính năng lượng của con lắc lò xo có A=10cm, k=100N/m"
     ];
+
 
     // Auto scroll to bottom
     useEffect(() => {
@@ -89,6 +151,7 @@ const AISidebarSimple = () => {
 
         setMessages(prev => [...prev, userMessage]);
         setInputMessage('');
+
 
         try {
             let response;
@@ -132,6 +195,7 @@ const AISidebarSimple = () => {
                     timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
                     type: 'explanation'
                 };
+                console.log(aiMessage.text)
                 setMessages(prev => [...prev, aiMessage]);
             } else {
                 throw new Error(data.message || data.error);
@@ -179,48 +243,6 @@ const AISidebarSimple = () => {
         sendToAPI(conceptName, 'explain');
     };
 
-    // // Test API connection
-    // const testAPIConnection = async () => {
-    //     setIsLoading(true);
-    //     try {
-    //         const response = await fetch('/api/ai/explain', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 concept: "dao động điều hòa",
-    //                 level: "cơ bản"
-    //             })
-    //         });
-
-    //         const data = await response.json();
-
-    //         const testMessage: Message = {
-    //             id: messages.length + 1,
-    //             text: data.success
-    //                 ? `✅ API hoạt động tốt! Token sử dụng: ${data.tokensUsed?.totalTokens || 'N/A'}`
-    //                 : `❌ API lỗi: ${data.message || data.error}`,
-    //             sender: 'ai',
-    //             timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-    //             type: data.success ? 'explanation' : 'error'
-    //         };
-
-    //         setMessages(prev => [...prev, testMessage]);
-
-    //     } catch (error) {
-    //         const errorMessage: Message = {
-    //             id: messages.length + 1,
-    //             text: "❌ Không thể kết nối đến API. Kiểm tra server và API key.",
-    //             sender: 'ai',
-    //             timestamp: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
-    //             type: 'error'
-    //         };
-    //         setMessages(prev => [...prev, errorMessage]);
-    //     } finally {
-    //         setIsLoading(false);
-    //     }
-    // };
 
     // Render tab Chat
     const renderChatTab = () => (
@@ -250,7 +272,9 @@ const AISidebarSimple = () => {
                                     {msg.sender === 'ai' ? 'AI Tutor' : 'Bạn'} • {msg.timestamp}
                                 </span>
                             </div>
-                            <div className="text-sm whitespace-pre-wrap" >{msg.text}</div>
+                            <div className="text-sm whitespace-pre-wrap" >
+                                {renderWithLatex(msg.text)}
+                            </div>
                         </div>
                     </div>
                 ))}
