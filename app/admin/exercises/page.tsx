@@ -448,9 +448,9 @@ export default function AdminExerciseBlueprints() {
                             key={key}
                             className="px-2 py-1 text-xs bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 rounded"
                           >
-                              {blueprint.type === 'calculation' && typeof varDef === 'object' && varDef !== null
-                                ? `${key}: ${varDef.min}-${varDef.max} (${varDef.type}${varDef.decimals ? `, ${varDef.decimals}dp` : ''})`
-                                : `${key}: ${varDef}`}
+                            {blueprint.type === 'calculation' && typeof varDef === 'object' && varDef !== null
+                              ? `${key}: ${varDef.min}-${varDef.max} (${varDef.type}${varDef.decimals ? `, ${varDef.decimals}dp` : ''})`
+                              : `${key}: ${varDef}`}
                           </span>
                         ))}
                       </div>
@@ -641,44 +641,53 @@ export default function AdminExerciseBlueprints() {
                           {/* Min */}
                           <input
                             type="number"
-                            value={varDef.min}
+                            value={typeof varDef === 'object' && varDef !== null ? varDef.min : ''}
                             onChange={(e) => {
-                              const value = parseFloat(e.target.value)
-                              setFormData({
-                                ...formData,
-                                variables: { ...formData.variables, [varName]: { ...varDef, min: value } }
-                              })
+                              if (typeof varDef === 'object' && varDef !== null) {
+                                const value = parseFloat(e.target.value)
+                                setFormData({
+                                  ...formData,
+                                  variables: { ...formData.variables, [varName]: { ...varDef, min: value } }
+                                })
+                              }
                             }}
                             placeholder="Min"
                             className="px-2 py-1 border rounded-lg w-full"
+                            disabled={typeof varDef !== 'object' || varDef === null}
                           />
 
                           {/* Max */}
                           <input
                             type="number"
-                            value={varDef.max}
+                            value={typeof varDef === 'object' && varDef !== null ? varDef.max : ''}
                             onChange={(e) => {
-                              const value = parseFloat(e.target.value)
-                              setFormData({
-                                ...formData,
-                                variables: { ...formData.variables, [varName]: { ...varDef, max: value } }
-                              })
+                              if (typeof varDef === 'object' && varDef !== null) {
+                                const value = parseFloat(e.target.value)
+                                setFormData({
+                                  ...formData,
+                                  variables: { ...formData.variables, [varName]: { ...varDef, max: value } }
+                                })
+                              }
                             }}
                             placeholder="Max"
                             className="px-2 py-1 border rounded-lg w-full"
+                            disabled={typeof varDef !== 'object' || varDef === null}
                           />
 
                           {/* Type */}
                           <select
-                            value={varDef.type}
+                            value={typeof varDef === 'object' && varDef !== null ? varDef.type : 'int'}
                             onChange={(e) => {
-                              const value = e.target.value as 'int' | 'float'
-                              setFormData({
-                                ...formData,
-                                variables: { ...formData.variables, [varName]: { ...varDef, type: value } }
-                              })
+                              if (typeof varDef === 'object' && varDef !== null) {
+                                const value = e.target.value as 'int' | 'float'
+                                setFormData({
+                                  ...formData,
+                                  variables: { ...formData.variables, [varName]: { ...varDef, type: value } }
+                                })
+                              }
                             }}
                             className="px-2 py-1 border rounded-lg w-full col-span-2"
+                            disabled={typeof varDef !== 'object' || varDef === null}
                           >
                             <option value="int">Số nguyên</option>
                             <option value="float">Số thập phân</option>
@@ -687,9 +696,9 @@ export default function AdminExerciseBlueprints() {
                           {/* Decimals */}
                           <input
                             type="number"
-                            value={varDef.type === 'float' ? varDef.decimals ?? 2 : 0}
+                            value={typeof varDef === 'object' && varDef !== null && varDef.type === 'float' ? varDef.decimals ?? 2 : 0}
                             onChange={(e) => {
-                              if (varDef.type === 'float') {
+                              if (typeof varDef === 'object' && varDef !== null && varDef.type === 'float') {
                                 const value = parseInt(e.target.value) || 0
                                 setFormData({
                                   ...formData,
@@ -698,8 +707,9 @@ export default function AdminExerciseBlueprints() {
                               }
                             }}
                             placeholder="Decimals"
-                            className={`px-2 py-1 border rounded-lg w-full ${varDef.type === 'int' ? 'bg-gray-200 dark:bg-gray-700 text-gray-500' : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'}`}
-                            readOnly={varDef.type === 'int'}
+                            className={`px-2 py-1 border rounded-lg w-full ${typeof varDef === 'object' && varDef !== null && varDef.type === 'int' ? 'bg-gray-200 dark:bg-gray-700 text-gray-500' : 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white'}`}
+                            readOnly={typeof varDef === 'object' && varDef !== null && varDef.type === 'int'}
+                            disabled={typeof varDef !== 'object' || varDef === null}
                           />
 
                           {/* Delete button */}
